@@ -134,7 +134,7 @@ autofarm:AddButton{
 	end
 }
 autofarm:AddLabel{ text = "RightAlt To Hide/Show Gui" }
-autofarm:AddLabel{ text = "Creadits to" }
+autofarm:AddLabel{ text = "Credits to" }
 autofarm:AddLabel{ text = "Pylogon#1337" }
 autofarm:AddButton{
 	text = "YT Channel Link",
