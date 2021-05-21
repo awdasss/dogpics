@@ -1,0 +1,19 @@
+if game.PlaceId == 5765666934 or game.PlaceId == 5343994291 or game.PlaceId == 5765666554 then--outlaster
+	wait(3)
+	loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/mrjack-coder/script/main/Outlaster'))()
+elseif game.PlaceId == 6610021055 then--Noob Army Tycoon
+	wait(3)
+	loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/mrjack-coder/script/main/Noob%20Army%20Tycoon'))()
+elseif game.PlaceId == 6490016198 then--Slayer Tycoon
+	wait(3)
+	loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/mrjack-coder/script/main/Slayer%20Tycoon'))()
+elseif game.PlaceId == 6656109940 then--Zara Larsson
+	wait(3)
+	loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/mrjack-coder/script/main/games/Zara%20Larsson%20Launch%20Party'))()
+elseif game.PlaceId == 221718525 then--Ninja Tycoon
+	wait(3)
+	loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/mrjack-coder/script/main/games/Ninja%20Tycoon'))()
+else
+    wait(3)
+	loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/mrjack-coder/script/main/no%20game%20found"))()
+end
