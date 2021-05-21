@@ -1,4 +1,4 @@
-local library = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/mrjack-coder/script/main/UI%20Lib")()
+local library = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/UI%20Lib")()
 local players = game:GetService"Players"
 local client = players.LocalPlayer
 local runService = game:GetService"RunService"
