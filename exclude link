@@ -1,0 +1,19 @@
+local scriptcheck = {
+	'anaminus.github.io/rbx/json/api',
+	'ghostbin.co/paste/d89wuq',
+	'githubusercontent.com/CMD',
+	'github.com/mrjack',
+	'normal-api.ml/translate?',
+	'githubusercontent.com/mrjack',
+	'githubusercontent.com/EdgeIY',
+	'pastebin.com/raw/8z83423nWHbE',
+	'pastebin.com/raw/8z8n234WHbE',
+	'https://normal-api.ml/translate?',
+	'translate',
+        'translate?',
+	'pastebin.com/raw/UXmbai5q',
+	'games.roblox.com',
+	'users.roblox.com',
+	'roblox/ChatBypass'
+}
+return scriptcheck
