@@ -28,7 +28,7 @@ local function notif(str, tle, dur)
 	game:GetService"StarterGui":SetCore("SendNotification", { Title = tle or str, Text = str, Duration = dur or 1 })
 end
 
-function animation:play(name)
+function animation:Play(name)
 	if name == "Astronaut" then
 		notif("Astronaut", "Animation")
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://891621366"
@@ -293,6 +293,7 @@ function animation:play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://616165109"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://616166655"
 	end
+	return animation
 end
 
 return animation
