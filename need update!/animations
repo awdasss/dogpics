@@ -1,3 +1,4 @@
+local animation
 local animations = {
 	"Astronaut",
 	"Bubbly",
@@ -24,7 +25,6 @@ local animations = {
 	"Werewolf",
 	"Zombie"
 }
-
 function animation:Play(name)
 	if name == "Astronaut" then
         game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
