@@ -24,8 +24,8 @@ local animations = {
 	"Werewolf",
 	"Zombie"
 }
-
-local animation = function animation:Play(name)
+local animation = nil
+function animation:Play(name)
     game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation", Text = tostring(name), Duration = 1})
 	if name == "Astronaut" then
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://891621366"
