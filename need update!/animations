@@ -1,8 +1,4 @@
-local function notif(str, tle, dur)
-	game:GetService"StarterGui":SetCore("SendNotification", { Title = tle or str, Text = str, Duration = dur or 1 })
-end
-
-local animationlist = {
+local animation = {
 	"Astronaut",
 	"Bubbly",
 	"Cartoony",
@@ -28,8 +24,11 @@ local animationlist = {
 	"Werewolf",
 	"Zombie"
 }
+local function notif(str, tle, dur)
+	game:GetService"StarterGui":SetCore("SendNotification", { Title = tle or str, Text = str, Duration = dur or 1 })
+end
 
-function animationlist:play(name)
+function animation:play(name)
 	if name == "Astronaut" then
 		notif("Astronaut", "Animation")
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://891621366"
@@ -296,4 +295,4 @@ function animationlist:play(name)
 	end
 end
 
-return animationlist, anitmation
+return animation
