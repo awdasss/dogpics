@@ -1,4 +1,4 @@
-local animations = {
+local animation = {
 	"Astronaut",
 	"Bubbly",
 	"Cartoony",
@@ -24,7 +24,6 @@ local animations = {
 	"Werewolf",
 	"Zombie"
 }
-local animation = nil
 function animation:Play(name)
     game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation", Text = tostring(name), Duration = 1})
 	if name == "Astronaut" then
@@ -270,4 +269,4 @@ function animation:Play(name)
 	return animation
 end
 
-return animations, animation
+return animation
