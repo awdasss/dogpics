@@ -1,0 +1,656 @@
+local library = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/mrjack-coder/script/main/UI%20Lib")()
+local players = game:GetService"Players"
+local client = players.LocalPlayer
+local runService = game:GetService"RunService"
+local Imput = game:GetService"UserInputService"
+local Mouse = client:GetMouse()
+local SGui = game:GetService"StarterGui"
+local LService = game:GetService"Lighting"
+local mouse = client:GetMouse()
+local moblist = {}
+
+local function remove(name)
+	for i, key in pairs(moblist) do if key == name then table.remove(moblist, i) end end
+end
+
+local currentweapon = "Combat"
+local autofarm = library:CreateWindow(game:GetService"MarketplaceService":GetProductInfo(game.PlaceId).Name or "Ninja Tycoon")
+autofarm:AddToggle{ text = "Auto Build", flag = "autobuild" }
+autofarm:AddToggle{ text = "Auto Collect Cash", flag = "cash" }
+local mob = autofarm:AddFolder"Selct Mobs To Farm"
+mob:AddToggle{
+	text = "Coldjason",
+	callback = function(v)
+		if v == true then table.insert(moblist, "Coldjason")
+		elseif v == false then remove"Coldjason" end
+	end
+}
+mob:AddToggle{
+	text = "Juubito",
+	callback = function(v)
+		if v == true then table.insert(moblist, "Juubito")
+		elseif v == false then remove"Juubito" end
+	end
+}
+mob:AddToggle{
+	text = "Kaguyai",
+	callback = function(v)
+		if v == true then table.insert(moblist, "Kaguyai")
+		elseif v == false then remove"Kaguyai" end
+	end
+}
+mob:AddToggle{
+	text = "Mizouki",
+	callback = function(v)
+		if v == true then table.insert(moblist, "Mizouki")
+		elseif v == false then remove"Mizouki" end
+	end
+}
+mob:AddToggle{
+	text = "Nadara",
+	callback = function(v)
+		if v == true then table.insert(moblist, "Nadara")
+		elseif v == false then remove"Nadara" end
+	end
+}
+mob:AddToggle{
+	text = "Oroshimaro",
+	callback = function(v)
+		if v == true then table.insert(moblist, "Oroshimaro")
+		elseif v == false then remove"Oroshimaro" end
+	end
+}
+mob:AddToggle{
+	text = "Pain",
+	callback = function(v)
+		if v == true then table.insert(moblist, "Pain")
+		elseif v == false then remove"Pain" end
+	end
+}
+mob:AddToggle{
+	text = "Reanimated Ninja",
+	callback = function(v)
+		if v == true then table.insert(moblist, "Reanimated Ninja")
+		elseif v == false then remove"Reanimated Ninja" end
+	end
+}
+mob:AddToggle{
+	text = "Rogue Ninja",
+	callback = function(v)
+		if v == true then table.insert(moblist, "Rogue Ninja")
+		elseif v == false then remove"Rogue Ninja" end
+	end
+}
+mob:AddToggle{
+	text = "Tenth Beast",
+	callback = function(v)
+		if v == true then table.insert(moblist, "Tenth Beast")
+		elseif v == false then remove"Tenth Beast" end
+	end
+}
+mob:AddLabel{ text = "" }
+autofarm:AddToggle{ text = "Auto Farm Mobs", flag = "farmtog" }
+autofarm:AddToggle{ text = "Auto Attack Players", flag = "playr" }
+autofarm:AddBox{ text = "Weapon", value = "Combat", flag = "weapon" }
+autofarm:AddSlider{
+	text = "Adjust Position Y",
+	min = -5,
+	max = 5,
+	float = 0.1,
+	value = 3.8,
+	flag = "posy"
+}
+autofarm:AddSlider{
+	text = "Adjust Position Z",
+	min = 1,
+	max = 7,
+	float = 0.1,
+	value = 4.2,
+	flag = "posz"
+}
+autofarm:AddButton{
+	text = "TP To Tycoon",
+	callback = function()
+		for i, y in pairs(workspace["Zednov's Tycoon Kit"].Tycoons:GetChildren()) do
+			if y.Owner.Value == client then
+				client.Character.HumanoidRootPart.CFrame = y.Essentials.Spawn.CFrame + Vector3.new(0, 4, 0)
+			end
+		end
+	end
+}
+autofarm:AddLabel{ text = "RightAlt To Hide/Show Gui" }
+autofarm:AddButton{
+	text = "YT Channel Link",
+	callback = function()
+		setclipboard(tostring"https://www.youtube.com/channel/UCVcgjkZV9Xdmz2higc93IqQ?sub_confirmation=1")
+	end
+}
+autofarm:AddLabel{ text = "Mr Jack" }
+local nospam = true
+local nospam1 = true
+
+local function mob(name)
+	for i, v in pairs(players:GetChildren()) do if name == v.Name then return true end end
+end
+
+local function weapon(target)
+	for i, v in pairs(client.Backpack:GetChildren()) do
+		if v.Name:sub(1, #target):lower() == target:lower() then
+			currentweapon = v.Name
+			v.Parent = client.Character
+			return
+		end
+	end
+	for i, v in pairs(client.Backpack:GetChildren()) do
+		if v.Name == "Combat" then
+			currentweapon = v.Name
+			v.Parent = client.Character
+			return
+		end
+	end
+end
+
+local A_1
+local A_2
+spawn(function()
+	while wait() do
+		if library.flags.playr then
+			if client.Character and client.Character:FindFirstChild"HumanoidRootPart" and client.Character:FindFirstChild"Humanoid" then
+				pcall(function()
+					if client.Character and client.Character:FindFirstChild"HumanoidRootPart" and client.Character:FindFirstChild"Humanoid" and client.Character:FindFirstChild"Humanoid".Health > 0 then
+						if not client.Character:FindFirstChild(currentweapon) then
+							for _, u in pairs(client.Character:GetChildren()) do if u:IsA"Tool" then u.Parent = client.Backpack end end
+							weapon(library.flags.weapon)
+						elseif client.Character:FindFirstChild(currentweapon) then
+							for i, v in pairs(players:GetChildren()) do
+								if client ~= v then
+									if v.Character:FindFirstChild"Humanoid" and v.Character:FindFirstChild"HumanoidRootPart" and v.Character:FindFirstChild"Humanoid".Health > 1 then
+										for _, t in pairs(v:GetChildren()) do pcall(function() t.CanCollide = false end) end
+										v.Character.HumanoidRootPart.CFrame = client.Character.HumanoidRootPart.CFrame * CFrame.new(0, library.flags.posy, math.abs(library.flags.posz) * -1)
+										v.Character.HumanoidRootPart.Anchored = true
+										v.Character.HumanoidRootPart.Anchored = true
+									end
+								end
+							end
+							for _, u in pairs(client.Character:GetChildren()) do
+								if u.Name == currentweapon then
+									for i, v in pairs(u:GetDescendants()) do
+										if v:IsA"RemoteEvent" then v:FireServer"LeftDown"
+										elseif v:IsA"RemoteFunction" then
+											A_1 = "KeyPress"
+											A_2 = { ["Key"] = "2", ["Down"] = true }
+											v:InvokeServer(A_1, A_2)
+											wait(0.1)
+											A_1 = "KeyPress"
+											A_2 = { ["Key"] = "2", ["Down"] = false }
+											v:InvokeServer(A_1, A_2)
+										end
+									end
+								end
+							end
+						end
+					end
+				end)
+			end
+			nospam = true
+		elseif not library.flags.playr and nospam then
+			wait(1)
+			for i, v in pairs(players:GetChildren()) do
+				if client ~= v then
+					if v.Character:FindFirstChild"Humanoid" and v.Character:FindFirstChild"HumanoidRootPart" and v.Character:FindFirstChild"Humanoid".Health > 1 then
+						for _, t in pairs(v:GetChildren()) do pcall(function() t.CanCollide = true end) end
+						v.Character.HumanoidRootPart.Anchored = false
+						v.Character.HumanoidRootPart.Anchored = false
+					end
+				end
+			end
+			nospam = false
+		end
+		if library.flags.farmtog then
+			if client.Character and client.Character:FindFirstChild"HumanoidRootPart" and client.Character:FindFirstChild"Humanoid" then
+				pcall(function()
+					if client.Character and client.Character:FindFirstChild"HumanoidRootPart" and client.Character:FindFirstChild"Humanoid" and client.Character:FindFirstChild"Humanoid".Health > 0 then
+						if not client.Character:FindFirstChild(currentweapon) then
+							for _, u in pairs(client.Character:GetChildren()) do if u:IsA"Tool" then u.Parent = client.Backpack end end
+							weapon(library.flags.weapon)
+						elseif client.Character:FindFirstChild(currentweapon) then
+							for i, v in pairs(game.Workspace:GetChildren()) do
+								if client ~= v and not mob(v.Name) then
+									if table.find(moblist, tostring(v.Name)) and v:FindFirstChild"Humanoid" and v:FindFirstChild"HumanoidRootPart" and v:FindFirstChild"Humanoid".Health > 1 then
+										for _, t in pairs(v:GetChildren()) do pcall(function() t.CanCollide = false end) end
+										v.HumanoidRootPart.CFrame = client.Character.HumanoidRootPart.CFrame * CFrame.new(0, library.flags.posy, math.abs(library.flags.posz) * -1)
+										v.HumanoidRootPart.Anchored = true
+										v.HumanoidRootPart.Anchored = true
+									end
+								end
+							end
+							for _, u in pairs(client.Character:GetChildren()) do
+								if u.Name == currentweapon then
+									for i, v in pairs(u:GetDescendants()) do
+										if v:IsA"RemoteEvent" then v:FireServer"LeftDown"
+										elseif v:IsA"RemoteFunction" then
+											local A_1 = "KeyPress"
+											local A_2 = { ["Key"] = "2", ["Down"] = true }
+											v:InvokeServer(A_1, A_2)
+											wait(0.1)
+											A_1 = "KeyPress"
+											A_2 = { ["Key"] = "2", ["Down"] = false }
+											v:InvokeServer(A_1, A_2)
+										end
+									end
+								end
+							end
+						end
+					end
+				end)
+			end
+		end
+	end
+end)
+spawn(function()
+	while wait() do
+		if library.flags.cash or library.flags.autobuild then
+			for i, y in pairs(workspace["Zednov's Tycoon Kit"].Tycoons:GetChildren()) do
+				if y.Owner.Value == client then
+					pcall(function()
+						firetouchinterest(client.Character.HumanoidRootPart, y.Essentials.Giver, 0)
+						wait()
+						firetouchinterest(client.Character.HumanoidRootPart, y.Essentials.Giver, 1)
+						if nospam1 then
+							spawn(function()
+								nospam1 = false
+								while wait() do
+									pcall(function()
+										fireclickdetector(y.PurchasedObjects.Mine.Clicker.ClickDetector)
+									end)
+								end
+							end)
+						end
+					end)
+				end
+			end
+		end
+		if library.flags.autobuild then
+			for i, y in pairs(workspace["Zednov's Tycoon Kit"].Tycoons:GetChildren()) do
+				if y.Owner.Value == client then
+					for _, v in pairs(y.Buttons:GetDescendants()) do
+						if not library.flags.autobuild then break end
+						pcall(function()
+							if v:FindFirstChild"Price" and v:FindFirstChild"Head" then
+								if v.Head:FindFirstChild"TouchInterest" and v.Head.Transparency == 0 then
+									firetouchinterest(client.Character.HumanoidRootPart, v.Head, 0)
+									wait()
+									firetouchinterest(client.Character.HumanoidRootPart, v.Head, 1)
+								end
+							end
+						end)
+					end
+				end
+			end
+		end
+	end
+end)
+local misc = library:CreateWindow"Miscellaneous"
+local usr = misc:AddFolder"User"
+local chat = misc:AddFolder"Chat"
+local spec = misc:AddFolder"Spectate"
+local tp = misc:AddFolder"Teleport Service"
+local runService = game:GetService"RunService"
+local LService = game:GetService"Lighting"
+local mouse = client:GetMouse()
+local input = game:GetService"UserInputService"
+-- --------------//CLIENT//-----------------------
+pcall(function()
+	function isnil(thing) return thing == nil end
+
+	local function round(n) return math.floor(tonumber(n) + 0.5) end
+
+	function UpdatePlayerChams()
+		for i, v in pairs(game:GetService"Players":GetChildren()) do
+			pcall(function()
+				if game:GetService"Players".LocalPlayer ~= v.Name then
+					if not isnil(v.Character) then
+						if not isnil(v.Character.Head) and not v.Character.Head:FindFirstChild"NameEsp" and library.flags.esp then
+							local bill = Instance.new("BillboardGui", v.Character.Head)
+							bill.Name = "NameEsp"
+							bill.Size = UDim2.new(1, 200, 1, 30)
+							bill.Adornee = v.Character.Head
+							bill.AlwaysOnTop = true
+							local name = Instance.new("TextLabel", bill)
+							name.TextWrapped = true
+							name.Font = "ArialBold"
+							name.Size = UDim2.new(1, 0, 1, 0)
+							name.TextSize = 12
+							name.TextTransparency = 0.2
+							name.TextStrokeTransparency = 0.5
+							name.TextYAlignment = "Top"
+							name.TextColor3 = library.flags.espcolor
+							name.BackgroundTransparency = 1
+							if v.DisplayName == v.Name then
+								name.Text = v.Name .. " " .. round((game:GetService"Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
+							else
+								name.Text = v.DisplayName .. "\n" .. v.Name .. " " .. round((game:GetService"Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
+							end
+						elseif library.flags.esp and v.Character.Head:FindFirstChild"NameEsp" then
+							v.Character.Head.NameEsp.TextLabel.Visible = true
+							v.Character.Head.NameEsp.TextLabel.TextColor3 = library.flags.espcolor
+							v.Character.Humanoid.NameDisplayDistance = 0
+							if v.DisplayName == v.Name then
+								v.Character.Head.NameEsp.TextLabel.Text = v.Name .. " " .. round((game:GetService"Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
+							else
+								v.Character.Head.NameEsp.TextLabel.Text = v.DisplayName .. "\n" .. v.Name .. " " .. round((game:GetService"Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
+							end
+						elseif not library.flags.esp and v.Character.Head:FindFirstChild"NameEsp" then v.Character.Head.NameEsp.TextLabel.Visible = false end
+					end
+				end
+			end)
+		end
+	end
+
+	spawn(function()
+		while wait() do spawn(function() UpdatePlayerChams() end) end
+	end)
+
+	local function time(time)
+		if time == "Off" then
+			getgenv().Night = false
+			getgenv().Day = false
+		elseif time == "Day" then
+			getgenv().Night = false
+			getgenv().Day = true
+		elseif time == "Night" then
+			getgenv().Night = true
+			getgenv().Day = false
+		end
+		runService.RenderStepped:Connect(function()
+			if LService and LService.ClockTime then
+				if Night == true then LService.ClockTime = 3
+				elseif Day == true then LService.ClockTime = 14 end
+			end
+		end)
+	end
+
+	local function To(position)
+		local Chr = client.Character
+		if Chr ~= nil then Chr:MoveTo(position) end
+	end
+
+	input.InputBegan:Connect(function(imput)
+		if imput.UserInputType == Enum.UserInputType.MouseButton1 and input:IsKeyDown(library.flags.alttp) then To(mouse.Hit.p) end
+	end)
+	local btools = false
+	runService.Stepped:Connect(function()
+		pcall(function()
+			if library.flags.NoClip then client.Character.Humanoid:ChangeState(11) end
+			client.Character.Humanoid.WalkSpeed = library.flags.Speed or 16
+		end)
+	end)
+	mouse.Button1Up:Connect(function() if library.flags.btool then mouse.Target:Destroy() end end)
+	usr:AddList{ text = "Time", values = { "Off", "Day", "Night" }, callback = function(v) time(v) end }
+	usr:AddSlider{
+		text = "Adjust Brightness",
+		min = 0,
+		max = 10,
+		float = 0.1,
+		value = LService.Brightness,
+		callback = function(v) LService.Brightness = v end
+	}
+	usr:AddToggle{ text = "Btool", flag = "btool" }
+	usr:AddToggle{ text = "NoClip", flag = "NoClip" }
+	usr:AddToggle{ text = "ESP", flag = "esp" }
+	usr:AddColor{ text = "ESP Color", color = Color3.new(1, 0, 0), flag = "espcolor" }
+	usr:AddBind{ text = "Key Teleport", key = "LeftAlt", flag = "alttp" }
+	usr:AddBox{
+		text = "Walk Speed[Default " .. client.Character.Humanoid.WalkSpeed .. "]",
+		value = client.Character.Humanoid.WalkSpeed,
+		flag = "Speed"
+	}
+end)
+-- ------------//CHAT//-------------------------
+pcall(function()
+	local UD, UD2 = UDim.new, UDim2.new
+
+	local function ChatSpy()
+		local ChatSpyFrame = client:WaitForChild"PlayerGui":WaitForChild"Chat".Frame
+		ChatSpyFrame.ChatChannelParentFrame.Visible = true
+		ChatSpyFrame.ChatBarParentFrame.Position = ChatSpyFrame.ChatChannelParentFrame.Position + UD2(UD(), ChatSpyFrame.ChatChannelParentFrame.Size.Y)
+	end
+
+	-- brings back chat for games that remove it
+	ChatSpy()
+	local Chat = game:GetService"Chat"
+	local ClientChatModules = Chat:WaitForChild"ClientChatModules"
+	local ChatSettings = require(ClientChatModules:WaitForChild"ChatSettings")
+	ChatSettings.WindowResizable = true
+	ChatSettings.ClickOnPlayerNameToWhisper = true
+	ShowHiddenMsg = function(T, C)
+		SGui:SetCore("ChatMakeSystemMessage", { Text = T, Color = C })
+	end
+	local language = "en"
+	-- works with 'en' (english), 'es' (spanish), and 'fr' (french)
+	game.Players.PlayerAdded:Connect(function(player)
+		player.Chatted:Connect(function(messsage)
+			spawn(function()
+				if library.flags.allchat then
+					ShowHiddenMsg("[" .. tostring(player) .. "]: " .. tostring(messsage), library.flags.spycolor)
+				elseif library.flags.chatspy then
+					if string.find(messsage, "/") or string.find(messsage, "/w") then
+						ShowHiddenMsg("[" .. tostring(player) .. "]: " .. tostring(messsage), library.flags.spycolor)
+					end
+				end
+			end)
+			spawn(function()
+				if library.flags.translate then
+					local xd = messsage:lower()
+					local message = messsage:gsub(" ", "+")
+					local xd = game:HttpGet("https://normal-api.ml/translate?text=" .. message .. "&to=" .. language .. "")
+					local data = game.HttpService:JSONDecode(xd)
+					local res = data.translated
+					if messsage ~= res then
+						ShowHiddenMsg("[" .. tostring(player.Name) .. "]: " .. tostring(res), library.flags.spycolor)
+					end
+				end
+			end)
+		end)
+	end)
+	for i, player in pairs(game.Players:GetPlayers()) do
+		player.Chatted:Connect(function(messsage)
+			spawn(function()
+				if library.flags.allchat then
+					ShowHiddenMsg("[" .. tostring(player) .. "]: " .. tostring(messsage), library.flags.spycolor)
+				elseif library.flags.chatspy then
+					if string.find(messsage, "/") or string.find(messsage, "/w") then
+						ShowHiddenMsg("[" .. tostring(player) .. "]: " .. tostring(messsage), library.flags.spycolor)
+					end
+				end
+			end)
+			spawn(function()
+				if library.flags.translate then
+					local xd = messsage:lower()
+					local message = messsage:gsub(" ", "+")
+					local xd = game:HttpGet("https://normal-api.ml/translate?text=" .. message .. "&to=" .. language .. "")
+					local data = game.HttpService:JSONDecode(xd)
+					local res = data.translated
+					if messsage ~= res then
+						ShowHiddenMsg("[" .. tostring(player.Name) .. "]: " .. tostring(res), library.flags.spycolor)
+					end
+				end
+			end)
+		end)
+	end
+	local PlayerGui = client:WaitForChild"PlayerGui"
+	local BubbleChatUI = PlayerGui:WaitForChild"BubbleChat"
+	BubbleChatUI.DescendantAdded:Connect(function(Descendant)
+		if library.flags.darkchat then
+			if Descendant:IsA"ImageLabel" then Descendant.ImageColor3 = library.flags.bubble
+			elseif Descendant:IsA"TextLabel" then Descendant.TextColor3 = Color3.new(1, 1, 1) end
+		end
+	end)
+	chat:AddToggle{ text = "Translator", flag = "translate" }
+	chat:AddToggle{ text = "Show Hidden Message", flag = "chatspy" }
+	chat:AddToggle{ text = "Show All Message", flag = "allchat" }
+	chat:AddColor{ text = "Chat Color", color = Color3.new(1, 0, 0), flag = "spycolor" }
+	chat:AddToggle{ text = "Chat Bubble Color", flag = "darkchat" }
+	chat:AddColor{ text = "Bubble Color", color = Color3.fromRGB(59, 59, 59), flag = "bubble" }
+end)
+-- --------------//SPECTATE//----------------------
+pcall(function()
+	local CurrentPlayerIndex = 1
+	local CurrentPlayer
+
+	local function ChangeCameraSubject(Player)
+		if Player and Player.Character then
+			local Humanoid = Player.Character:FindFirstChildOfClass"Humanoid"
+			if Humanoid then
+				workspace.CurrentCamera.CameraSubject = Humanoid
+				CurrentPlayer = Player
+			end
+		end
+	end
+
+	game:GetService"RunService".Heartbeat:Connect(function()
+		pcall(function()
+			local PlayersChildren = players:GetChildren()
+			if CurrentPlayerIndex <= 1 then
+				workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+				CurrentPlayer = client
+				ChangeCameraSubject(client)
+			elseif CurrentPlayerIndex >= 2 and PlayersChildren[CurrentPlayerIndex] then ChangeCameraSubject(PlayersChildren[CurrentPlayerIndex])
+			else
+				CurrentPlayerIndex = 1
+				CurrentPlayer = client
+			end
+		end)
+	end)
+	spec:AddButton{
+		text = "Self",
+		callback = function(v)
+			pcall(function()
+				CurrentPlayer = client
+				CurrentPlayerIndex = 1
+				ChangeCameraSubject(client)
+			end)
+		end
+	}
+	spec:AddBox{
+		text = "Player To Spectate",
+		value = client,
+		callback = function(target)
+			pcall(function()
+				game:GetService"RunService".RenderStepped:Wait()
+				for i, v in pairs(players:GetChildren()) do
+					if v.Name:sub(1, #target):lower() == target:lower() then
+						target = v
+						CurrentPlayerIndex = i
+						break
+					end
+				end
+				if not target then return end
+			end)
+		end
+	}
+	spec:AddButton{
+		text = "Next Player",
+		callback = function(v)
+			pcall(function()
+				local NewIndex = CurrentPlayerIndex + 1
+				if NewIndex > #players:GetChildren() then CurrentPlayerIndex = 1
+				else CurrentPlayerIndex = NewIndex end
+			end)
+		end
+	}
+	spec:AddButton{
+		text = "Previous Player",
+		callback = function(v)
+			pcall(function()
+				local NewIndex = CurrentPlayerIndex - 1
+				if NewIndex <= 0 then CurrentPlayerIndex = #players:GetChildren()
+				else CurrentPlayerIndex = NewIndex end
+			end)
+		end
+	}
+	spec:AddButton{
+		text = "Teleport To Player",
+		callback = function(v)
+			pcall(function()
+				pcall(function()
+					client.Character.HumanoidRootPart.CFrame = CurrentPlayer.Character.HumanoidRootPart.CFrame
+				end)
+			end)
+		end
+	}
+end)
+-- ----------------//TELEPORT SERVICE//-----------------
+pcall(function()
+	local function serverhop()
+		print"Server Hopping"
+		local starterGui = game:GetService"StarterGui"
+		starterGui:SetCore("SendNotification", { Title = "Server Hop", Text = "Looking For A Server", Duration = 2 })
+		local id = nil
+		if not game:IsLoaded() then repeat wait() until game:IsLoaded() end
+		local goodserver = nil
+		local once = false
+		local gamelink = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
+
+		function serversearch()
+			for _, v in pairs(game:GetService"HttpService":JSONDecode(game:HttpGetAsync(gamelink)).data) do
+				if type(v) == "table" and game.Players.MaxPlayers > v.playing then
+					if v.id ~= game.JobId then
+						goodserver = v.id
+						if not once then
+							print("Server Found" .. v.id)
+							once = true
+							id = v.id
+							starterGui:SetCore("SendNotification", { Title = "Switching Server", Text = "Server Found\n" .. v.id, Duration = 2 })
+							game:GetService"TeleportService":TeleportToPlaceInstance(game.PlaceId, goodserver)
+						end
+					end
+				end
+			end
+		end
+
+		function getservers()
+			serversearch()
+			for i, v in pairs(game:GetService"HttpService":JSONDecode(game:HttpGetAsync(gamelink))) do
+				if i == "nextPageCursor" then
+					if gamelink:find"&cursor=" then
+						local a = gamelink:find"&cursor="
+						local b = gamelink:sub(a)
+						gamelink = gamelink:gsub(b, "")
+					end
+					gamelink = gamelink .. "&cursor=" .. v
+					getservers()
+				end
+			end
+		end
+
+		getservers()
+		if id == nil then
+			print"Server Hop Failed"
+			starterGui:SetCore("SendNotification", { Title = "Server Hop Failed", Text = "No Other Server Found", Duration = 2 })
+		end
+	end
+
+	-- //gui
+	tp:AddBox{ text = "Put Game ID/Place ID Below", value = game.PlaceId, flag = "gameid" }
+	tp:AddButton{
+		text = "Teleport To ID",
+		callback = function()
+			game:GetService"TeleportService":Teleport(library.flags.gameid, client)
+		end
+	}
+	tp:AddButton{
+		text = "Rejoin",
+		callback = function(v)
+			game:GetService"TeleportService":TeleportToPlaceInstance(game.PlaceId, game.JobId)
+		end
+	}
+	tp:AddButton{ text = "Switch Server", callback = function(v) serverhop() end }
+end)
+local notif = library:CreateWindow"NOTIFICATION"
+notif:AddLabel{ text = "Want a Permanent Key?" }
+notif:AddLabel{ text = "Become My Video Editor!" }
+notif:AddLabel{ text = "For More Details" }
+notif:AddLabel{ text = "Add Me On Discord" }
+notif:AddLabel{ text = "JackIsCool#8443" }
+library:Init()
