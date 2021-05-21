@@ -72,6 +72,7 @@ spawn(function()
 end)
 spawn(function()
 	while wait() do
+		game.Lighting.FogEnd = 1000000
 		game.Players.LocalPlayer.DevCameraOcclusionMode = "Invisicam"
 		game.Players.LocalPlayer.CameraMaxZoomDistance = 9e9
 	end
