@@ -25,13 +25,9 @@ local animation = {
 	"Zombie"
 }
 
-function notif(str, tle, dur)
-	game:GetService"StarterGui":SetCore("SendNotification", { Title = tle or str, Text = str, Duration = dur or 1 })
-end
-
 function animation:Play(name)
 	if name == "Astronaut" then
-		notif("Astronaut", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://891621366"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://891633237"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://891636393"
@@ -42,7 +38,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://891639666"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://891663592"
 	elseif name == "Bubbly" then
-		notif("Bubbly", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://910004836"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://910009958"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://910025107"
@@ -53,7 +49,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://910028158"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://910030921"
 	elseif name == "Cartoony" then
-		notif("Cartoony", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://742637544"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://742638445"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://742638842"
@@ -64,7 +60,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://742639220"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://742639812"
 	elseif name == "Confident" then
-		notif("Confident", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://1069977950"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://1069987858"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://1070001516"
@@ -75,7 +71,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://1070009914"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://1070012133"
 	elseif name == "Cowboy" then
-		notif("Cowboy", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://1014390418"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://1014398616"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://1014401683"
@@ -86,7 +82,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://1014406523"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://1014411816"
 	elseif name == "Elder" then
-		notif("Elder", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://845397899"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://845400520"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://845386501"
@@ -97,7 +93,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://845401742"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://845403127"
 	elseif name == "Knight" then
-		notif("Knight", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://657595757"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://657568135"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://657564596"
@@ -108,7 +104,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://657560551"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://657557095"
 	elseif name == "Levitation" then
-		notif("Levitation", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://616006778"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://616008087"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://616010382"
@@ -119,7 +115,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://616011509"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://616012453"
 	elseif name == "Mage" then
-		notif("Mage", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://707742142"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://707855907"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://707861613"
@@ -130,7 +126,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://707876443"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://707894699"
 	elseif name == "Ninja" then
-		notif("Ninja", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://656117400"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://656118341"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://656118852"
@@ -141,7 +137,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://656119721"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://656121397"
 	elseif name == "OldSchool" then
-		notif("OldSchool", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://5319828216"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://5319831086"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://5319844329"
@@ -152,7 +148,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://5319850266"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://5319852613"
 	elseif name == "Patrol" then
-		notif("Patrol", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://1149612882"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://1150842221"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://1150967949"
@@ -163,7 +159,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://1151204998"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://1151221899"
 	elseif name == "Pirate" then
-		notif("Pirate", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://750781874"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://750782770"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://750783738"
@@ -174,7 +170,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://750784579"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://750785176"
 	elseif name == "Popstar" then
-		notif("Popstar", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://1212900985"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://1212954651"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://1212980348"
@@ -185,7 +181,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://1212852603"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://1212998578"
 	elseif name == "Princess" then
-		notif("Princess", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://941003647"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://941013098"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://941015281"
@@ -196,7 +192,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://941018893"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://941025398"
 	elseif name == "R15" then
-		notif("R15", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://4211217646"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://4211218409"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://4211220381"
@@ -207,7 +203,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://4211221314"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://4374694239"
 	elseif name == "Robot" then
-		notif("Robot", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://616088211"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://616089559"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://616091570"
@@ -218,7 +214,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://616092998"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://616094091"
 	elseif name == "Sneaky" then
-		notif("Sneaky", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://1132473842"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://1132477671"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://1132494274"
@@ -229,7 +225,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://1132500520"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://1132506407"
 	elseif name == "Stylish" then
-		notif("Stylish", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://616136790"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://616138447"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://616140816"
@@ -240,7 +236,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://616143378"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://616144772"
 	elseif name == "Superhero" then
-		notif("Superhero", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://616111295"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://616113536"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://616117076"
@@ -251,7 +247,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://616119360"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://616120861"
 	elseif name == "Toy" then
-		notif("Toy", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://782841498"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://782845736"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://782842708"
@@ -262,7 +258,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://782844582"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://782845186"
 	elseif name == "Vampire" then
-		notif("Vampire", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://1083445855"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://1083450166"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://1083462077"
@@ -273,7 +269,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://1083464683"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://1083467779"
 	elseif name == "Werewolf" then
-		notif("Werewolf", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://1083195517"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://1083214717"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://1083216690"
@@ -283,7 +279,7 @@ function animation:Play(name)
 		game.Players.LocalPlayer.Character.Animate.fall.fall.AnimationId = "rbxassetid://1083189019"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://1083225406"
 	elseif name == "Zombie" then
-		notif("Zombie", "Animation")
+        game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation" or str, Text = tostring(name), Duration = dur or 1 })
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://616158929"
 		game.Players.LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://616160636"
 		game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://616163682"
