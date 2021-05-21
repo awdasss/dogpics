@@ -24,7 +24,8 @@ local animation = {
 	"Werewolf",
 	"Zombie"
 }
-local function notif(str, tle, dur)
+
+function notif(str, tle, dur)
 	game:GetService"StarterGui":SetCore("SendNotification", { Title = tle or str, Text = str, Duration = dur or 1 })
 end
 
