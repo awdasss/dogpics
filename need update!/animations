@@ -1,4 +1,4 @@
-local animation = {
+local animations = {
 	"Astronaut",
 	"Bubbly",
 	"Cartoony",
@@ -293,4 +293,4 @@ function animation:Play(name)
 	return animation
 end
 
-return animation
+return animation, animations
