@@ -1,6 +1,0 @@
-local notif = library:CreateWindow("NOTIFICATION")
-notif:AddLabel{ text = "Want a Permanent Key?"}
-notif:AddLabel{ text = "Become My Video Editor!"}
-notif:AddLabel{ text = "For More Details"}
-notif:AddLabel{ text = "Add Me On Discord"}
-notif:AddLabel{ text = "JackIsCool#8443"}
