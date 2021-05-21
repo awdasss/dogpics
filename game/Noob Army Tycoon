@@ -1,0 +1,363 @@
+local library = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/UI%20Lib")()
+local httpService = game:GetService"HttpService"
+local players = game:GetService"Players"
+local client = players.LocalPlayer
+local runService = game:GetService"RunService"
+local SGui = game:GetService"StarterGui"
+local LService = game:GetService"Lighting"
+local Imput = game:GetService"UserInputService"
+local tweenService = game:GetService"TweenService"
+local Mouse = client:GetMouse()
+
+local function notif(str, tle, dur)
+	game:GetService"StarterGui":SetCore("SendNotification", { Title = tle or str, Text = str, Duration = dur or 1 })
+end
+
+runService.Stepped:Connect(function()
+	if library.flags.autobuild or library.flags.NoClip then client.Character.Humanoid:ChangeState(11) end
+	client.Character.Humanoid.WalkSpeed = library.flags.Speed or 30
+end)
+
+function To(position)
+	local Chr = client.Character
+	if Chr ~= nil then Chr:MoveTo(position) end
+end
+
+Imput.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 and Imput:IsKeyDown(library.flags.tp) then To(Mouse.Hit.p) end
+end)
+local autofarm = library:CreateWindow"Noob Army Tycoon"
+local change = autofarm:AddFolder"Change Troop  >>>"
+local misc = library:CreateWindow"Miscellaneous"
+local usr = misc:AddFolder"User"
+local chat = misc:AddFolder"Chat"
+autofarm:AddToggle{ text = "Auto Build", flag = "autobuild" }
+change:AddBox{ text = "Troop Name", value = "Fire Noob", flag = "troop" }
+change:AddButton{
+	text = "Noob Spawns",
+	callback = function()
+		local ChangeTo = library.flags.troop
+		for Yes = 1, 14 do
+			local ohString2 = ("Noob Spawn %s"):format(tostring(Yes))
+			game:GetService"ReplicatedStorage".Remotes.ChangeTroop:FireServer(ChangeTo, ohString2)
+		end
+		wait(0.1)
+		game:GetService"ReplicatedStorage".Remotes.RespawnArmy:FireServer()
+	end
+}
+change:AddButton{
+	text = "Vehicle Spawns",
+	callback = function()
+		local ChangeTo = library.flags.troop
+		for Yes = 1, 5 do
+			local ohString2 = ("Vehicle Spawn %s"):format(tostring(Yes))
+			game:GetService"ReplicatedStorage".Remotes.ChangeTroop:FireServer(ChangeTo, ohString2)
+		end
+		wait(0.1)
+		game:GetService"ReplicatedStorage".Remotes.RespawnArmy:FireServer()
+	end
+}
+change:AddButton{
+	text = "Super Noob Spawn",
+	callback = function()
+		local ChangeTo = library.flags.troop
+		local ohString2 = "Super Noob Spawn"
+		game:GetService"ReplicatedStorage".Remotes.ChangeTroop:FireServer(ChangeTo, ohString2)
+		wait(0.1)
+		game:GetService"ReplicatedStorage".Remotes.RespawnArmy:FireServer()
+	end
+}
+change:AddButton{
+	text = "Air Vehicle Spawns",
+	callback = function()
+		local ChangeTo = library.flags.troop
+		for Yes = 1, 2 do
+			local ohString2 = ("Air Vehicle Spawn %s"):format(tostring(Yes))
+			game:GetService"ReplicatedStorage".Remotes.ChangeTroop:FireServer(ChangeTo, ohString2)
+		end
+		wait(0.1)
+		game:GetService"ReplicatedStorage".Remotes.RespawnArmy:FireServer()
+	end
+}
+autofarm:AddToggle{ text = "NoClip", flag = "NoClip" }
+autofarm:AddBox{ text = "WalkSpeed [Default 30]", value = 30, flag = "Speed" }
+autofarm:AddBind{ text = "Teleport", key = "LeftAlt", flag = "tp" }
+autofarm:AddButton{
+	text = "Switch Server",
+	callback = function()
+		print"Server Hopping"
+		local starterGui = game:GetService"StarterGui"
+		starterGui:SetCore("SendNotification", { Title = "Server Hopping", Text = "Looking For A Server", Duration = 2 })
+		local id = nil
+		if not game:IsLoaded() then repeat wait() until game:IsLoaded() end
+		local goodserver = nil
+		local once = false
+		local gamelink = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
+
+		function serversearch()
+			for _, v in pairs(game:GetService"HttpService":JSONDecode(game:HttpGetAsync(gamelink)).data) do
+				if type(v) == "table" and game.Players.MaxPlayers > v.playing then
+					if v.id ~= game.JobId then
+						goodserver = v.id
+						if not once then
+							print("Server Found" .. v.id)
+							once = true
+							id = v.id
+							starterGui:SetCore("SendNotification", { Title = "Server Hopping", Text = "Server Found\n" .. v.id, Duration = 2 })
+							game:GetService"TeleportService":TeleportToPlaceInstance(game.PlaceId, goodserver)
+						end
+					end
+				end
+			end
+		end
+
+		function getservers()
+			serversearch()
+			for i, v in pairs(game:GetService"HttpService":JSONDecode(game:HttpGetAsync(gamelink))) do
+				if i == "nextPageCursor" then
+					if gamelink:find"&cursor=" then
+						local a = gamelink:find"&cursor="
+						local b = gamelink:sub(a)
+						gamelink = gamelink:gsub(b, "")
+					end
+					gamelink = gamelink .. "&cursor=" .. v
+					getservers()
+				end
+			end
+		end
+
+		getservers()
+		if id == nil then
+			print"Server Hop Failed"
+			starterGui:SetCore("SendNotification", { Title = "Failed", Text = "Try Again", Duration = 2 })
+		end
+	end
+}
+autofarm:AddLabel{ text = "RightAlt To Hide/Show Gui" }
+autofarm:AddLabel{ text = "Creadits to" }
+autofarm:AddLabel{ text = "Pylogon#1337" }
+autofarm:AddButton{
+	text = "YT Channel Link",
+	callback = function()
+		setclipboard(tostring"https://www.youtube.com/channel/UCVcgjkZV9Xdmz2higc93IqQ?sub_confirmation=1")
+	end
+}
+autofarm:AddLabel{ text = "Mr Jack" }
+spawn(function()
+	while wait() do
+		if library.flags.autobuild then
+			for i, y in pairs(workspace.Tycoons:GetChildren()) do
+				if y.Owner.Value == client then
+					for _, v in pairs(y.Models:GetDescendants()) do
+						if not library.flags.autobuild then
+							spawn(function()
+								wait(1.7)
+								client.Character.HumanoidRootPart.CFrame = y.Model.SpawnLocation.CFrame + Vector3.new(0, 3.8, 0)
+							end)
+							break
+						end
+						pcall(function()
+							if v:FindFirstChild"Stats" and v:FindFirstChild"Button" then
+								if v.Button:FindFirstChild"ProximityPrompt" and v.Stats:FindFirstChild"Price" then
+									if v.Button.Transparency == 0 then
+										if not v.Stats:FindFirstChild"Group" and not v.Stats:FindFirstChild"Premium" and not v.Stats:FindFirstChild"Gamepass" and not v.Stats:FindFirstChild"Research" and not v.Stats:FindFirstChild"Kills" and v.Stats.Price.Value <= game:GetService"Players".LocalPlayer.leaderstats.Money.Value then
+											client.Character.HumanoidRootPart.CFrame = v.Button.CFrame * CFrame.new(0, 0, 2)
+											wait(0.15)
+											fireproximityprompt(v.Button.ProximityPrompt, 1)
+											wait(0.2)
+										elseif not v.Stats:FindFirstChild"Group" and not v.Stats:FindFirstChild"Premium" and not v.Stats:FindFirstChild"Gamepass" and v.Stats:FindFirstChild"Research" and v.Stats.Price.Value <= game:GetService"Players".LocalPlayer.leaderstats.Money.Value and v.Stats.Research.Value <= game:GetService"Players".LocalPlayer.leaderstats["Research Points"].Value then
+											client.Character.HumanoidRootPart.CFrame = v.Button.CFrame * CFrame.new(0, 0, 2)
+											wait(0.15)
+											fireproximityprompt(v.Button.ProximityPrompt, 1)
+											wait(0.2)
+										elseif not v.Stats:FindFirstChild"Group" and not v.Stats:FindFirstChild"Premium" and not v.Stats:FindFirstChild"Gamepass" and v.Stats:FindFirstChild"Kills" and v.Stats.Price.Value <= game:GetService"Players".LocalPlayer.leaderstats.Money.Value and v.Stats.Kills.Value <= game:GetService"Players".LocalPlayer.leaderstats.Kills.Value then
+											client.Character.HumanoidRootPart.CFrame = v.Button.CFrame * CFrame.new(0, 0, 2)
+											wait(0.15)
+											fireproximityprompt(v.Button.ProximityPrompt, 1)
+											wait(0.2)
+										elseif y.Owner.Value == client then
+											client.Character.HumanoidRootPart.CFrame = y.Models.Computer.Model.Part.CFrame * CFrame.new(0, 0, 2)
+											wait(0.15)
+											fireproximityprompt(v.Button.ProximityPrompt, 1)
+											wait(0.2)
+										end
+									end
+								end
+							end
+						end)
+					end
+				end
+			end
+		end
+	end
+end)
+-- --------------//CLIENT//-----------------------
+local mouse = client:GetMouse()
+
+function isnil(thing) return thing == nil end
+
+local function round(n) return math.floor(tonumber(n) + 0.5) end
+
+function UpdatePlayerChams()
+	for i, v in pairs(game:GetService"Players":GetChildren()) do
+		pcall(function()
+			if game:GetService"Players".LocalPlayer ~= v.Name then
+				if not isnil(v.Character) then
+					if not isnil(v.Character.Head) and not v.Character.Head:FindFirstChild"NameEsp" and library.flags.esp then
+						local bill = Instance.new("BillboardGui", v.Character.Head)
+						bill.Name = "NameEsp"
+						bill.Size = UDim2.new(1, 200, 1, 30)
+						bill.Adornee = v.Character.Head
+						bill.AlwaysOnTop = true
+						local name = Instance.new("TextLabel", bill)
+						name.TextWrapped = true
+						name.Font = "ArialBold"
+						name.Size = UDim2.new(1, 0, 1, 0)
+						name.TextSize = 12
+						name.TextTransparency = 0.2
+						name.TextStrokeTransparency = 0.5
+						name.TextYAlignment = "Top"
+						name.TextColor3 = library.flags.espcolor
+						name.BackgroundTransparency = 1
+						if v.DisplayName == v.Name then
+							name.Text = v.Name .. " " .. round((game:GetService"Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
+						else
+							name.Text = v.DisplayName .. "\n" .. v.Name .. " " .. round((game:GetService"Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
+						end
+					elseif library.flags.esp and v.Character.Head:FindFirstChild"NameEsp" then
+						v.Character.Head.NameEsp.TextLabel.Visible = true
+						v.Character.Head.NameEsp.TextLabel.TextColor3 = library.flags.espcolor
+						v.Character.Humanoid.NameDisplayDistance = 0
+						if v.DisplayName == v.Name then
+							v.Character.Head.NameEsp.TextLabel.Text = v.Name .. " " .. round((game:GetService"Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
+						else
+							v.Character.Head.NameEsp.TextLabel.Text = v.DisplayName .. "\n" .. v.Name .. " " .. round((game:GetService"Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
+						end
+					elseif not library.flags.esp and v.Character.Head:FindFirstChild"NameEsp" then v.Character.Head.NameEsp.TextLabel.Visible = false end
+				end
+			end
+		end)
+	end
+end
+
+spawn(function()
+	while wait() do spawn(function() UpdatePlayerChams() end) end
+end)
+
+local function time(time)
+	if time == "Off" then
+		getgenv().Night = false
+		getgenv().Day = false
+	elseif time == "Day" then
+		getgenv().Night = false
+		getgenv().Day = true
+	elseif time == "Night" then
+		getgenv().Night = true
+		getgenv().Day = false
+	end
+	runService.RenderStepped:Connect(function()
+		if LService and LService.ClockTime then
+			if Night == true then LService.ClockTime = 3
+			elseif Day == true then LService.ClockTime = 14 end
+		end
+	end)
+end
+
+local btools = false
+mouse.Button1Up:Connect(function() if library.flags.btool then mouse.Target:Destroy() end end)
+usr:AddList{ text = "Time", values = { "Off", "Day", "Night" }, callback = function(v) time(v) end }
+usr:AddSlider{
+	text = "Adjust Brightness",
+	min = 0,
+	max = 10,
+	callback = function(v) LService.Brightness = v end
+}
+usr:AddToggle{ text = "Btool", flag = "btool" }
+usr:AddToggle{ text = "ESP", flag = "esp" }
+usr:AddColor{ text = "ESP Color", color = Color3.new(1, 0, 0), flag = "espcolor" }
+-- ------------//CHAT//-------------------------
+local UD, UD2 = UDim.new, UDim2.new
+
+local function ChatSpy()
+	local ChatSpyFrame = client:WaitForChild"PlayerGui":WaitForChild"Chat".Frame
+	ChatSpyFrame.ChatChannelParentFrame.Visible = true
+	ChatSpyFrame.ChatBarParentFrame.Position = ChatSpyFrame.ChatChannelParentFrame.Position + UD2(UD(), ChatSpyFrame.ChatChannelParentFrame.Size.Y)
+end
+
+-- brings back chat for games that remove it
+ChatSpy()
+local Chat = game:GetService"Chat"
+local ClientChatModules = Chat:WaitForChild"ClientChatModules"
+local ChatSettings = require(ClientChatModules:WaitForChild"ChatSettings")
+ChatSettings.WindowResizable = true
+ChatSettings.ClickOnPlayerNameToWhisper = true
+ShowHiddenMsg = function(T, C)
+	SGui:SetCore("ChatMakeSystemMessage", { Text = T, Color = C })
+end
+local language = "en"
+-- works with 'en' (english), 'es' (spanish), and 'fr' (french)
+game.Players.PlayerAdded:Connect(function(player)
+	player.Chatted:Connect(function(messsage)
+		spawn(function()
+			if library.flags.allchat then
+				ShowHiddenMsg("[" .. tostring(player) .. "]: " .. tostring(messsage), library.flags.spycolor)
+			elseif library.flags.chatspy then
+				if string.find(messsage, "/") or string.find(messsage, "/w") then
+					ShowHiddenMsg("[" .. tostring(player) .. "]: " .. tostring(messsage), library.flags.spycolor)
+				end
+			end
+		end)
+		spawn(function()
+			if library.flags.translate then
+				local xd = messsage:lower()
+				local message = messsage:gsub(" ", "+")
+				local xd = game:HttpGet("https://normal-api.ml/translate?text=" .. message .. "&to=" .. language .. "")
+				local data = game.HttpService:JSONDecode(xd)
+				local res = data.translated
+				if messsage ~= res then
+					ShowHiddenMsg("[" .. tostring(player.Name) .. "]: " .. tostring(res), library.flags.spycolor)
+				end
+			end
+		end)
+	end)
+end)
+for i, player in pairs(game.Players:GetPlayers()) do
+	player.Chatted:Connect(function(messsage)
+		spawn(function()
+			if library.flags.allchat then
+				ShowHiddenMsg("[" .. tostring(player) .. "]: " .. tostring(messsage), library.flags.spycolor)
+			elseif library.flags.chatspy then
+				if string.find(messsage, "/") or string.find(messsage, "/w") then
+					ShowHiddenMsg("[" .. tostring(player) .. "]: " .. tostring(messsage), library.flags.spycolor)
+				end
+			end
+		end)
+		spawn(function()
+			if library.flags.translate then
+				local xd = messsage:lower()
+				local message = messsage:gsub(" ", "+")
+				local xd = game:HttpGet("https://normal-api.ml/translate?text=" .. message .. "&to=" .. language .. "")
+				local data = game.HttpService:JSONDecode(xd)
+				local res = data.translated
+				if messsage ~= res then
+					ShowHiddenMsg("[" .. tostring(player.Name) .. "]: " .. tostring(res), library.flags.spycolor)
+				end
+			end
+		end)
+	end)
+end
+-- [chat:AddToggle{ text = "Translator", flag = "translate" }
+chat:AddToggle{ text = "Show Hidden Message", flag = "chatspy" }
+chat:AddToggle{ text = "Show All Message", flag = "allchat" }
+chat:AddColor{ text = " Chat Color", color = Color3.new(1, 0, 0), flag = "spycolor" }
+local notif = library:CreateWindow"NOTIFICATION"
+notif:AddLabel{ text = "I Just UnPatched This!" }
+notif:AddLabel{ text = "Contact Me To Discord" }
+notif:AddLabel{ text = "If It Get Patch Again!" }
+notif:AddLabel{ text = "" }
+notif:AddLabel{ text = "Want a Permanent Key?" }
+notif:AddLabel{ text = "Become My Video Editor!" }
+notif:AddLabel{ text = "For More Details" }
+notif:AddLabel{ text = "Add Me On Discord" }
+notif:AddLabel{ text = "JackIsCool#8443" }
+library:Init()
