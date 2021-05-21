@@ -29,7 +29,7 @@ local animationlist = {
 	"Zombie"
 }
 
-function anitmation:play(name)
+function animationlist:play(name)
 	if name == "Astronaut" then
 		notif("Astronaut", "Animation")
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://891621366"
