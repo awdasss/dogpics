@@ -13,6 +13,9 @@ elseif game.PlaceId == 6656109940 then--Zara Larsson
 elseif game.PlaceId == 221718525 then--Ninja Tycoon
 	wait(3)
 	loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/game/Ninja%20Tycoon'))()
+elseif game.PlaceId == 5534174456 then--NTropical Resort Tycoon 🌴
+	wait(3)
+	loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/game/Tropical%20Resort%20Tycoon%20%F0%9F%8C%B4'))()
 else
     wait(3)
 	loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/game/.no%20game"))()
