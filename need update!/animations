@@ -24,7 +24,7 @@ local animations = {
 	"Werewolf",
 	"Zombie"
 }
-local animation = function(name)
+local playanimation = function(name)
     game:GetService"StarterGui":SetCore("SendNotification", { Title = "Animation", Text = tostring(name), Duration = 1})
 	if name == "Astronaut" then
 		game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://891621366"
@@ -266,7 +266,7 @@ local animation = function(name)
 		game.Players.LocalPlayer.Character.Animate.swim.Swim.AnimationId = "rbxassetid://616165109"
 		game.Players.LocalPlayer.Character.Animate.swimidle.SwimIdle.AnimationId = "rbxassetid://616166655"
 	end
-	return animation
+	return playanimation
 end
 
-return animation, animations
+return animations, playanimation
