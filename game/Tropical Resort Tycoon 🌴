@@ -30,7 +30,6 @@ local animationfol = autofarm:AddFolder"Animations & Emotes"
 local chat = autofarm:AddFolder"Chat"
 local tp = autofarm:AddFolder"Teleport Service"
 autofarm:AddLabel{ text = "RightAlt To Hide/Show Gui" }
-autofarm:AddLabel{ text = "Thank You For using My Script!" }
 autofarm:AddButton{
 	text = "YT Channel Link",
 	callback = function()
