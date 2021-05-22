@@ -399,7 +399,7 @@ pcall(function()
 	tp:AddButton{
 		text = "Teleport To ID",
 		callback = function()
-            game:GetService"StarterGui":SetCore("SendNotification", { Title = "Teleport Service", Text = "Teleporting To\n" .. game:GetService"MarketplaceService":GetProductInfo(library.flags.gameid).Name, Duration = 5 })
+            game:GetService"StarterGui":SetCore("SendNotification", { Title = "Teleport Service", Text = "Teleporting To\n\n" .. game:GetService"MarketplaceService":GetProductInfo(library.flags.gameid).Name, Duration = 5 })
             game:GetService"TeleportService":Teleport(library.flags.gameid, client)
 		end
 	}
