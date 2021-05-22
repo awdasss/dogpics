@@ -1,4 +1,4 @@
-local animation = {
+local animations = {
 	"Astronaut",
 	"Bubbly",
 	"Cartoony",
