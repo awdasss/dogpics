@@ -21,7 +21,7 @@ end
 
 local animations, playanimation = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/animations"))()
 table.sort(animations)
-table.sort(emotelist)
+table.sort(emotes)
 
 local function round(n)
     return math.floor(tonumber(n) + 0.5)
@@ -156,7 +156,7 @@ aande:AddButton({
 aande:AddList({
     text = "Select Emote",
     flag = "chosen_emote",
-    values = emotelist
+    values = emotes
 });
 
 aande:AddBox({
