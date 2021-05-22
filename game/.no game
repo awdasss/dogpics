@@ -1,5 +1,4 @@
-local library = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/UI%20Lib"))();
-
+local library = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/UI%20Lib")()
 local players = game:GetService"Players"
 local client = players.LocalPlayer
 local SGui = game:GetService"StarterGui"
@@ -7,13 +6,9 @@ local runService = game:GetService"RunService"
 local LService = game:GetService"Lighting"
 local mouse = client:GetMouse()
 local input = game:GetService"UserInputService"
-local emotelist = {}
-local currentemote = nil
-
-
-local misc = library:CreateWindow("Miscellaneous")
+local misc = library:CreateWindow"Miscellaneous"
 local usr = misc:AddFolder"User"
-local animationE = misc:AddFolder"Animations & Emotes"
+local animationfol = misc:AddFolder"Animations & Emotes"
 local chat = misc:AddFolder"Chat"
 local spec = misc:AddFolder"Spectate"
 local tp = misc:AddFolder"Teleport Service"
@@ -22,10 +17,11 @@ local function notif(str, tle, dur)
 	game:GetService"StarterGui":SetCore("SendNotification", { Title = tle or str, Text = str, Duration = dur or 1 })
 end
 
-----------------//CLIENT//-----------------------
+-- --------------//CLIENT//-----------------------
 pcall(function()
 	local input = game:GetService"UserInputService"
 	local mouse = client:GetMouse()
+
 	function isnil(thing) return thing == nil end
 
 	local function round(n) return math.floor(tonumber(n) + 0.5) end
@@ -116,7 +112,7 @@ pcall(function()
 		text = "Adjust Brightness",
 		min = 0,
 		max = 10,
-		float = .1,
+		float = 0.1,
 		value = LService.Brightness,
 		callback = function(v) LService.Brightness = v end
 	}
@@ -130,28 +126,28 @@ pcall(function()
 		value = client.Character.Humanoid.WalkSpeed,
 		flag = "Speed"
 	}
-end)
--- -----------------//ANIMATIONS//--------------------
-pcall(function()
+	-- -----------------//ANIMATIONS//--------------------
+	local emotelist = {}
+	local currentemote = nil
 	local emotes = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/emotes")()
 	for i, v in pairs(emotes) do table.insert(emotelist, i) end
-	local animation = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/animations")()
-	table.sort(animation)
+	local animations, playanimation = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/animations")()
+	table.sort(animations)
 	table.sort(emotelist)
-	animationE:AddList{ text = "Select Animation", flag = "chosen_animation", values = animation }
-	animationE:AddButton{
+	animationfol:AddList{ text = "Select Animation", flag = "chosen_animation", values = animations }
+	animationfol:AddButton{
 		text = "Use Animation",
-		callback = function() animation:Play(library.flags.chosen_animation) end
+		callback = function() playanimation(library.flags.chosen_animation) end
 	}
-	animationE:AddList{ text = "Select Emote", flag = "chosen_emote", values = emotelist }
-	animationE:AddBox{
+	animationfol:AddList{ text = "Select Emote", flag = "chosen_emote", values = emotelist }
+	animationfol:AddBox{
 		text = "Emote Speed [Default 1]",
 		callback = function(v)
 			pcall(function() if currentemote ~= nil then currentemote:AdjustSpeed(v) end end)
 		end,
 		flag = "chosen_emotespeed"
 	}
-	animationE:AddButton{
+	animationfol:AddButton{
 		text = "Use Emote",
 		callback = function()
 			pcall(function()
@@ -159,7 +155,7 @@ pcall(function()
 				for i, v in pairs(emotes) do
 					if library.flags.chosen_emote == i then
 						if currentemote ~= nil then currentemote:Stop() end
-						AnimationId = v
+						local AnimationId = v
 						local Anim = Instance.new"Animation"
 						Anim.AnimationId = "rbxassetid://" .. AnimationId
 						currentemote = client.Character.Humanoid:LoadAnimation(Anim)
@@ -177,16 +173,16 @@ pcall(function()
 			end)
 		end
 	}
-end)
---------------//CHAT//-------------------------
-pcall(function()
+	-- ------------//CHAT//-------------------------
 	local UD, UD2 = UDim.new, UDim2.new
-	
+
 	local function ChatSpy()
-	   local ChatSpyFrame = client:WaitForChild("PlayerGui"):WaitForChild("Chat").Frame
-	   ChatSpyFrame.ChatChannelParentFrame.Visible = true
-	   ChatSpyFrame.ChatBarParentFrame.Position = ChatSpyFrame.ChatChannelParentFrame.Position + UD2(UD(), ChatSpyFrame.ChatChannelParentFrame.Size.Y)
-	end -- brings back chat for games that remove it
+		local ChatSpyFrame = client:WaitForChild"PlayerGui":WaitForChild"Chat".Frame
+		ChatSpyFrame.ChatChannelParentFrame.Visible = true
+		ChatSpyFrame.ChatBarParentFrame.Position = ChatSpyFrame.ChatChannelParentFrame.Position + UD2(UD(), ChatSpyFrame.ChatChannelParentFrame.Size.Y)
+	end
+
+	-- brings back chat for games that remove it
 	ChatSpy()
 	local Chat = game:GetService"Chat"
 	local ClientChatModules = Chat:WaitForChild"ClientChatModules"
@@ -262,9 +258,7 @@ pcall(function()
 	chat:AddColor{ text = "Chat Color", color = Color3.new(1, 0, 0), flag = "spycolor" }
 	chat:AddToggle{ text = "Chat Bubble Color", flag = "darkchat" }
 	chat:AddColor{ text = "Bubble Color", color = Color3.fromRGB(59, 59, 59), flag = "bubble" }
-end)
-----------------//SPECTATE//----------------------
-pcall(function()
+	-- --------------//SPECTATE//----------------------
 	local CurrentPlayerIndex = 1
 	local CurrentPlayer
 
@@ -349,9 +343,8 @@ pcall(function()
 			end)
 		end
 	}
-end)
-------------------//TELEPORT SERVICE//-----------------
-pcall(function()
+
+	-- ----------------//TELEPORT SERVICE//-----------------
 	local function serverhop()
 		print"Server Hopping"
 		local starterGui = game:GetService"StarterGui"
