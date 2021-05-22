@@ -44,48 +44,14 @@ autofarm:AddButton{
 	end
 }
 autofarm:AddLabel{ text = "Mr Jack" }
-local nospam = true
 spawn(function()
 	while wait() do
-		if library.flags.obby and not library.flags.autobuild then
+		if library.flags.autobuild then
 			nomove()
-			nospam = true
-			pcall(function()
-				for _, v in next, workspace.Camera:GetChildren() do
-					if v:FindFirstChild"Primary" and v:FindFirstChild"Glow" then
-						if library.flags.obby and library.flags.autobuild or not library.flags.obby then
-							CAS:UnbindAction(FREEZE_COMMAND)
-							break
-						end
-						if v.Glow.Decal.Transparency == 0 then
-							repeat
-								wait()
-								if library.flags.obby and library.flags.autobuild or not library.flags.obby then
-									CAS:UnbindAction(FREEZE_COMMAND)
-									break
-								end
-								client.Character.HumanoidRootPart.CFrame = v.Primary.CFrame * CFrame.new(10, 3, 0)
-								client.Character.Humanoid:MoveTo(v.Primary.Position)
-								client.Character.Humanoid.MoveToFinished:Wait()
-							until v.Glow.Decal.Transparency == 1
-						end
-					end
-				end
-			end)
-		end
-	end
-end)
-spawn(function()
-	while wait() do
-		if library.flags.autobuild and not library.flags.obby then
-			nomove()
-			nospam = true
 			pcall(function()
 				for _, v in next, workspace.Camera["Button Models"]:GetChildren() do
-					if library.flags.obby and library.flags.autobuild or not library.flags.autobuild then
-						CAS:UnbindAction(FREEZE_COMMAND)
-						break
-					end
+					if not library.flags.obby and not library.flags.autobuild then CAS:UnbindAction(FREEZE_COMMAND) end
+					if not library.flags.autobuild then break end
 					if v:FindFirstChild"Primary" and v:FindFirstChild"Bottom" then
 						if v.Bottom.Transparency == 0 then
 							local text = v.Primary.Billboard.Frame.Title.TextLabel.Text
@@ -100,10 +66,8 @@ spawn(function()
 					end
 				end
 				for _, v in next, workspace.Tycoons[game.Players.LocalPlayer.UserId].ATMs:GetDescendants() do
-					if library.flags.obby and library.flags.autobuild or not library.flags.autobuild then
-						CAS:UnbindAction(FREEZE_COMMAND)
-						break
-					end
+					if not library.flags.obby and not library.flags.autobuild then CAS:UnbindAction(FREEZE_COMMAND) end
+					if not library.flags.autobuild then break end
 					if v.Name == "Button" then
 						pcall(function()
 							client.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(0, 2.2, 7)
@@ -114,11 +78,27 @@ spawn(function()
 					end
 				end
 			end)
-		elseif library.flags.autobuild and library.flags.obby then
-			if nospam then
-				nospam = false
-				game:GetService"StarterGui":SetCore("SendNotification", { Title = "Failed", Text = "Please Turn Off\nAuto Build or Auto Obby", Duration = 3 })
-			end
+		end
+		if library.flags.obby then
+			nomove()
+			pcall(function()
+				for _, v in next, workspace.Camera:GetChildren() do
+					if v:FindFirstChild"Primary" and v:FindFirstChild"Glow" then
+						if not library.flags.obby and not library.flags.autobuild then CAS:UnbindAction(FREEZE_COMMAND) end
+						if not library.flags.obby then break end
+						if v.Glow.Decal.Transparency == 0 then
+							repeat
+								wait()
+								if not library.flags.obby and not library.flags.autobuild then CAS:UnbindAction(FREEZE_COMMAND) end
+								if not library.flags.obby then break end
+								client.Character.HumanoidRootPart.CFrame = v.Primary.CFrame * CFrame.new(10, 3, 0)
+								client.Character.Humanoid:MoveTo(v.Primary.Position)
+								client.Character.Humanoid.MoveToFinished:Wait()
+							until v.Glow.Decal.Transparency == 1
+						end
+					end
+				end
+			end)
 		end
 	end
 end)
