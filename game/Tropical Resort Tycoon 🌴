@@ -85,7 +85,9 @@ spawn(function()
 				for _, v in next, workspace.Tycoons[game.Players.LocalPlayer.UserId].ATMs:GetDescendants() do
 					if library.flags.obby and library.flags.autobuild or not library.flags.autobuild then break end
 					if v.Name == "Button" then
-						client.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(0, 2.2, 0)
+						client.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(0, 2.2, 5)
+							client.Character.Humanoid:MoveTo(v.Position)
+							client.Character.Humanoid.MoveToFinished:Wait()
 						wait(0.5)
 					end
 				end
