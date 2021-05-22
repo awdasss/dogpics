@@ -19,8 +19,8 @@ for i, v in pairs(emotes) do
     table.insert(emotelist, i)
 end
 
-local animation = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/animations"))()
-table.sort(animation)
+local animations, playanimation = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/animations"))()
+table.sort(animations)
 table.sort(emotelist)
 
 local function round(n)
@@ -140,14 +140,14 @@ local aande = library:CreateWindow("Animations and Emotes", true)
 aande:AddList({
     text = "Select Animation",
     flag = "chosen_animation",
-    values = animation
+    values = animations
 });
 
 aande:AddButton({
     text = ('Use Animation'),
     callback = function()
         pcall(function()
-            animation:Play(library.flags.chosen_animation)
+            playanimation(library.flags.chosen_animation)
         end)
     end
 });
