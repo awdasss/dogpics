@@ -7,6 +7,13 @@ local Mouse = client:GetMouse()
 local SGui = game:GetService"StarterGui"
 local LService = game:GetService"Lighting"
 local mouse = client:GetMouse()
+local CAS = game:GetService"ContextActionService"
+local FREEZE_COMMAND = "Stunned"
+
+function nomove()
+	CAS:BindActionAtPriority(FREEZE_COMMAND, function() return Enum.ContextActionResult.Sink end, false, Enum.ContextActionPriority.High.Value, Enum.KeyCode.W, Enum.KeyCode.S, Enum.KeyCode.A, Enum.KeyCode.D, Enum.KeyCode.Up, Enum.KeyCode.Space, Enum.KeyCode.Down)
+end
+
 runService.Stepped:Connect(function()
 	pcall(function()
 		if library.flags.autobuild or library.flags.obby or library.flags.NoClip then client.Character.Humanoid:ChangeState(11) end
@@ -41,15 +48,22 @@ local nospam = true
 spawn(function()
 	while wait() do
 		if library.flags.obby and not library.flags.autobuild then
+			nomove()
 			nospam = true
 			pcall(function()
 				for _, v in next, workspace.Camera:GetChildren() do
 					if v:FindFirstChild"Primary" and v:FindFirstChild"Glow" then
-						if library.flags.obby and library.flags.autobuild or not library.flags.obby then break end
+						if library.flags.obby and library.flags.autobuild or not library.flags.obby then
+							CAS:UnbindAction(FREEZE_COMMAND)
+							break
+						end
 						if v.Glow.Decal.Transparency == 0 then
 							repeat
 								wait()
-								if library.flags.obby and library.flags.autobuild or not library.flags.obby then break end
+								if library.flags.obby and library.flags.autobuild or not library.flags.obby then
+									CAS:UnbindAction(FREEZE_COMMAND)
+									break
+								end
 								client.Character.HumanoidRootPart.CFrame = v.Primary.CFrame * CFrame.new(10, 3, 0)
 								client.Character.Humanoid:MoveTo(v.Primary.Position)
 								client.Character.Humanoid.MoveToFinished:Wait()
@@ -64,10 +78,14 @@ end)
 spawn(function()
 	while wait() do
 		if library.flags.autobuild and not library.flags.obby then
+			nomove()
 			nospam = true
 			pcall(function()
 				for _, v in next, workspace.Camera["Button Models"]:GetChildren() do
-					if library.flags.obby and library.flags.autobuild or not library.flags.autobuild then break end
+					if library.flags.obby and library.flags.autobuild or not library.flags.autobuild then
+						CAS:UnbindAction(FREEZE_COMMAND)
+						break
+					end
 					if v:FindFirstChild"Primary" and v:FindFirstChild"Bottom" then
 						if v.Bottom.Transparency == 0 then
 							local text = v.Primary.Billboard.Frame.Title.TextLabel.Text
@@ -82,7 +100,10 @@ spawn(function()
 					end
 				end
 				for _, v in next, workspace.Tycoons[game.Players.LocalPlayer.UserId].ATMs:GetDescendants() do
-					if library.flags.obby and library.flags.autobuild or not library.flags.autobuild then break end
+					if library.flags.obby and library.flags.autobuild or not library.flags.autobuild then
+						CAS:UnbindAction(FREEZE_COMMAND)
+						break
+					end
 					if v.Name == "Button" then
 						pcall(function()
 							client.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(0, 2.2, 7)
@@ -96,7 +117,7 @@ spawn(function()
 		elseif library.flags.autobuild and library.flags.obby then
 			if nospam then
 				nospam = false
-				game:GetService"StarterGui":SetCore("SendNotification", { Title = 'Failed', Text = 'Please Turn Off\nAuto Build or Auto Obby', Duration = 3})
+				game:GetService"StarterGui":SetCore("SendNotification", { Title = "Failed", Text = "Please Turn Off\nAuto Build or Auto Obby", Duration = 3 })
 			end
 		end
 	end
