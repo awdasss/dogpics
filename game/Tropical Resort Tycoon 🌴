@@ -12,7 +12,6 @@ runService.Stepped:Connect(function()
 		if library.flags.autobuild or library.flags.obby or library.flags.NoClip then client.Character.Humanoid:ChangeState(11) end
 	end)
 end)
-local currentweapon = "Combat"
 local autofarm = library:CreateWindow(game:GetService"MarketplaceService":GetProductInfo(game.PlaceId).Name)
 autofarm:AddToggle{ text = "Auto Build", flag = "autobuild" }
 autofarm:AddToggle{ text = "Auto Obby", flag = "obby" }
@@ -26,7 +25,10 @@ autofarm:AddButton{
 		end
 	end
 }
-autofarm:AddLabel{ text = "" }
+local usr = autofarm:AddFolder"User"
+local animationfol = autofarm:AddFolder"Animations & Emotes"
+local chat = autofarm:AddFolder"Chat"
+local tp = autofarm:AddFolder"Teleport Service"
 autofarm:AddLabel{ text = "RightAlt To Hide/Show Gui" }
 autofarm:AddLabel{ text = "Thank You For using My Script!" }
 autofarm:AddButton{
@@ -44,11 +46,11 @@ spawn(function()
 			pcall(function()
 				for _, v in next, workspace.Camera:GetChildren() do
 					if v:FindFirstChild"Primary" and v:FindFirstChild"Glow" then
-						if not library.flags.obby then break end
+						if library.flags.obby and library.flags.autobuild or not library.flags.obby then break end
 						if v.Glow.Decal.Transparency == 0 then
 							repeat
 								wait()
-								if not library.flags.obby then break end
+								if library.flags.obby and library.flags.autobuild or not library.flags.obby then break end
 								client.Character.HumanoidRootPart.CFrame = v.Primary.CFrame * CFrame.new(0, 3, 12)
 								client.Character.Humanoid:MoveTo(v.Primary.Position)
 								client.Character.Humanoid.MoveToFinished:Wait()
@@ -66,7 +68,7 @@ spawn(function()
 			nospam = true
 			pcall(function()
 				for _, v in next, workspace.Camera["Button Models"]:GetChildren() do
-					if not library.flags.autobuild then break end
+					if library.flags.obby and library.flags.autobuild or not library.flags.autobuild then break end
 					if v:FindFirstChild"Primary" and v:FindFirstChild"Bottom" then
 						if v.Bottom.Transparency == 0 then
 							local text = v.Primary.Billboard.Frame.Title.TextLabel.Text
@@ -81,7 +83,7 @@ spawn(function()
 					end
 				end
 				for _, v in next, workspace.Tycoons[game.Players.LocalPlayer.UserId].ATMs:GetDescendants() do
-					if not library.flags.autobuild then break end
+					if library.flags.obby and library.flags.autobuild or not library.flags.autobuild then break end
 					if v.Name == "Button" then
 						client.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(0, 2.2, 0)
 						wait(0.5)
@@ -97,11 +99,6 @@ spawn(function()
 	end
 end)
 local input = game:GetService"UserInputService"
-local misc = library:CreateWindow"Miscellaneous"
-local usr = misc:AddFolder"User"
-local animationfol = misc:AddFolder"Animations & Emotes"
-local chat = misc:AddFolder"Chat"
-local tp = misc:AddFolder"Teleport Service"
 
 local function notif(str, tle, dur)
 	game:GetService"StarterGui":SetCore("SendNotification", { Title = tle or str, Text = str, Duration = dur or 1 })
@@ -324,11 +321,4 @@ tp:AddButton{
 	end
 }
 tp:AddButton{ text = "Switch Server", callback = function(v) serverhop() end }
-
-local notif = library:CreateWindow"NOTIFICATION"
-notif:AddLabel{ text = "Want a Permanent Key?" }
-notif:AddLabel{ text = "Become My Video Editor!" }
-notif:AddLabel{ text = "For More Details" }
-notif:AddLabel{ text = "Add Me On Discord" }
-notif:AddLabel{ text = "JackIsCool#8443" }
 library:Init()
