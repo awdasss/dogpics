@@ -50,11 +50,9 @@ spawn(function()
 							repeat
 								wait()
 								if library.flags.obby and library.flags.autobuild or not library.flags.obby then break end
-								pcall(function()
-									client.Character.HumanoidRootPart.CFrame = v.Primary.CFrame * CFrame.new(0, 3, 12)
-									client.Character.Humanoid:MoveTo(v.Primary.Position)
-									client.Character.Humanoid.MoveToFinished:Wait()
-								end)
+								client.Character.HumanoidRootPart.CFrame = v.Primary.CFrame * CFrame.new(10, 3, 0)
+								client.Character.Humanoid:MoveTo(v.Primary.Position)
+								client.Character.Humanoid.MoveToFinished:Wait()
 							until v.Glow.Decal.Transparency == 1
 						end
 					end
