@@ -1,0 +1,325 @@
+local library = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/UI%20Lib")()
+local players = game:GetService"Players"
+local client = players.LocalPlayer
+local runService = game:GetService"RunService"
+local Imput = game:GetService"UserInputService"
+local Mouse = client:GetMouse()
+local SGui = game:GetService"StarterGui"
+local LService = game:GetService"Lighting"
+local mouse = client:GetMouse()
+runService.Stepped:Connect(function()
+	pcall(function()
+		if library.flags.autobuild or library.flags.obby or library.flags.NoClip then client.Character.Humanoid:ChangeState(11) end
+	end)
+end)
+local currentweapon = "Combat"
+local autofarm = library:CreateWindow(game:GetService"MarketplaceService":GetProductInfo(game.PlaceId).Name)
+autofarm:AddToggle{ text = "Auto Build", flag = "autobuild" }
+autofarm:AddToggle{ text = "Auto Obby", flag = "obby" }
+autofarm:AddButton{
+	text = "TP To Tycoon",
+	callback = function()
+		for i, v in pairs(workspace.Tycoons[game.Players.LocalPlayer.UserId]:GetChildren()) do
+			if v.Name == "Spawn" then
+				client.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(0, 3, 0)
+			end
+		end
+	end
+}
+autofarm:AddLabel{ text = "RightAlt To Hide/Show Gui" }
+autofarm:AddButton{
+	text = "YT Channel Link",
+	callback = function()
+		setclipboard(tostring"https://www.youtube.com/channel/UCVcgjkZV9Xdmz2higc93IqQ?sub_confirmation=1")
+	end
+}
+autofarm:AddLabel{ text = "Mr Jack" }
+local nospam = true
+spawn(function()
+	while wait() do
+		if library.flags.obby and not library.flags.autobuild then
+			nospam = true
+			pcall(function()
+				for _, v in next, workspace.Camera:GetChildren() do
+					if v:FindFirstChild"Primary" and v:FindFirstChild"Glow" then
+						if not library.flags.obby then break end
+						if v.Glow.Decal.Transparency == 0 then
+							repeat
+								wait()
+								if not library.flags.obby then break end
+								client.Character.HumanoidRootPart.CFrame = v.Primary.CFrame * CFrame.new(0, 3, 12)
+								client.Character.Humanoid:MoveTo(v.Primary.Position)
+								client.Character.Humanoid.MoveToFinished:Wait()
+							until v.Glow.Decal.Transparency == 1
+						end
+					end
+				end
+			end)
+		end
+	end
+end)
+spawn(function()
+	while wait() do
+		if library.flags.autobuild and not library.flags.obby then
+			nospam = true
+			pcall(function()
+				for _, v in next, workspace.Camera["Button Models"]:GetChildren() do
+					if not library.flags.autobuild then break end
+					if v:FindFirstChild"Primary" and v:FindFirstChild"Bottom" then
+						if v.Bottom.Transparency == 0 then
+							local text = v.Primary.Billboard.Frame.Title.TextLabel.Text
+							if string.match(tostring(text), "%d+") and not string.match(tostring(text), "R") then
+								text = string.gsub(tostring(text), ",", "")
+								if client.leaderstats.Currency.Value > tonumber(text) then
+									client.Character.HumanoidRootPart.CFrame = v.Primary.CFrame * CFrame.new(0, 2.2, 0)
+									wait(0.5)
+								end
+							end
+						end
+					end
+				end
+				for _, v in next, workspace.Tycoons[game.Players.LocalPlayer.UserId].ATMs:GetDescendants() do
+					if not library.flags.autobuild then break end
+					if v.Name == "Button" then
+						client.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(0, 2.2, 0)
+						wait(0.5)
+					end
+				end
+			end)
+		elseif library.flags.autobuild and library.flags.obby then
+			if nospam then
+				nospam = false
+				game:GetService"StarterGui":SetCore("SendNotification", { Title = 'Failed', Text = 'Please Turn Off\nAuto Build or Auto Obby', Duration = 3})
+			end
+		end
+	end
+end)
+local input = game:GetService"UserInputService"
+local misc = library:CreateWindow"Miscellaneous"
+local usr = misc:AddFolder"User"
+local animationfol = misc:AddFolder"Animations & Emotes"
+local chat = misc:AddFolder"Chat"
+local tp = misc:AddFolder"Teleport Service"
+
+local function notif(str, tle, dur)
+	game:GetService"StarterGui":SetCore("SendNotification", { Title = tle or str, Text = str, Duration = dur or 1 })
+end
+
+-- --------------//CLIENT//-----------------------
+local function time(time)
+	if time == "Off" then
+		getgenv().Night = false
+		getgenv().Day = false
+	elseif time == "Day" then
+		getgenv().Night = false
+		getgenv().Day = true
+	elseif time == "Night" then
+		getgenv().Night = true
+		getgenv().Day = false
+	end
+	runService.RenderStepped:Connect(function()
+		if LService and LService.ClockTime then
+			if Night == true then LService.ClockTime = 3
+			elseif Day == true then LService.ClockTime = 14 end
+		end
+	end)
+end
+
+local function To(position)
+	local Chr = client.Character
+	if Chr ~= nil then Chr:MoveTo(position) end
+end
+
+input.InputBegan:Connect(function(imput)
+	if imput.UserInputType == Enum.UserInputType.MouseButton1 and input:IsKeyDown(library.flags.alttp) then To(mouse.Hit.p) end
+end)
+local btools = false
+mouse.Button1Up:Connect(function() if library.flags.btool then mouse.Target:Destroy() end end)
+usr:AddList{ text = "Time", values = { "Off", "Day", "Night" }, callback = function(v) time(v) end }
+usr:AddToggle{ text = "Btool", flag = "btool" }
+usr:AddToggle{ text = "NoClip", flag = "NoClip" }
+usr:AddBind{ text = "Key Teleport", key = "LeftAlt", flag = "alttp" }
+-- -----------------//ANIMATIONS//--------------------
+local emotelist = {}
+local currentemote = nil
+local emotes = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/emotes")()
+for i, v in pairs(emotes) do table.insert(emotelist, i) end
+local animations, playanimation = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/animations")()
+table.sort(animations)
+table.sort(emotelist)
+animationfol:AddList{ text = "Select Animation", flag = "chosen_animation", values = animations }
+animationfol:AddButton{
+	text = "Use Animation",
+	callback = function() playanimation(library.flags.chosen_animation) end
+}
+animationfol:AddList{ text = "Select Emote", flag = "chosen_emote", values = emotelist }
+animationfol:AddBox{
+	text = "Emote Speed [Default 1]",
+	callback = function(v)
+		pcall(function() if currentemote ~= nil then currentemote:AdjustSpeed(v) end end)
+	end,
+	flag = "chosen_emotespeed"
+}
+animationfol:AddButton{
+	text = "Use Emote",
+	callback = function()
+		pcall(function()
+			notif(library.flags.chosen_emote, "Emote")
+			for i, v in pairs(emotes) do
+				if library.flags.chosen_emote == i then
+					if currentemote ~= nil then currentemote:Stop() end
+					local AnimationId = v
+					local Anim = Instance.new"Animation"
+					Anim.AnimationId = "rbxassetid://" .. AnimationId
+					currentemote = client.Character.Humanoid:LoadAnimation(Anim)
+					currentemote:Play(0)
+					currentemote:AdjustSpeed(library.flags.chosen_emotespeed)
+					client.Character.Animate.Disabled = true
+					client.Character.Humanoid.Running:connect(function(speed)
+						if speed > 0 then
+							client.Character.Animate.Disabled = false
+							currentemote:Stop(0)
+						end
+					end)
+				end
+			end
+		end)
+	end
+}
+-- ------------//CHAT//-------------------------
+local UD, UD2 = UDim.new, UDim2.new
+
+local function ChatSpy()
+	local ChatSpyFrame = client:WaitForChild"PlayerGui":WaitForChild"Chat".Frame
+	ChatSpyFrame.ChatChannelParentFrame.Visible = true
+	ChatSpyFrame.ChatBarParentFrame.Position = ChatSpyFrame.ChatChannelParentFrame.Position + UD2(UD(), ChatSpyFrame.ChatChannelParentFrame.Size.Y)
+end
+
+-- brings back chat for games that remove it
+ChatSpy()
+local Chat = game:GetService"Chat"
+local ClientChatModules = Chat:WaitForChild"ClientChatModules"
+local ChatSettings = require(ClientChatModules:WaitForChild"ChatSettings")
+ChatSettings.WindowResizable = true
+ChatSettings.ClickOnPlayerNameToWhisper = true
+ShowHiddenMsg = function(T, C)
+	SGui:SetCore("ChatMakeSystemMessage", { Text = T, Color = C })
+end
+local language = "en"
+-- works with 'en' (english), 'es' (spanish), and 'fr' (french)
+game.Players.PlayerAdded:Connect(function(player)
+	player.Chatted:Connect(function(messsage)
+		spawn(function()
+			if library.flags.allchat then
+				ShowHiddenMsg("[" .. tostring(player) .. "]: " .. tostring(messsage), library.flags.spycolor)
+			elseif library.flags.chatspy then
+				if string.find(messsage, "/") or string.find(messsage, "/w") then
+					ShowHiddenMsg("[" .. tostring(player) .. "]: " .. tostring(messsage), library.flags.spycolor)
+				end
+			end
+		end)
+		spawn(function()
+			if library.flags.translate then
+				local xd = messsage:lower()
+				local message = messsage:gsub(" ", "+")
+				local xd = game:HttpGet("https://normal-api.ml/translate?text=" .. message .. "&to=" .. language .. "")
+				local data = game.HttpService:JSONDecode(xd)
+				local res = data.translated
+				if messsage ~= res then
+					ShowHiddenMsg("[" .. tostring(player.Name) .. "]: " .. tostring(res), library.flags.spycolor)
+				end
+			end
+		end)
+	end)
+end)
+for i, player in pairs(game.Players:GetPlayers()) do
+	player.Chatted:Connect(function(messsage)
+		spawn(function()
+			if library.flags.allchat then
+				ShowHiddenMsg("[" .. tostring(player) .. "]: " .. tostring(messsage), library.flags.spycolor)
+			elseif library.flags.chatspy then
+				if string.find(messsage, "/") or string.find(messsage, "/w") then
+					ShowHiddenMsg("[" .. tostring(player) .. "]: " .. tostring(messsage), library.flags.spycolor)
+				end
+			end
+		end)
+		spawn(function()
+			if library.flags.translate then
+				local xd = messsage:lower()
+				local message = messsage:gsub(" ", "+")
+				local xd = game:HttpGet("https://normal-api.ml/translate?text=" .. message .. "&to=" .. language .. "")
+				local data = game.HttpService:JSONDecode(xd)
+				local res = data.translated
+				if messsage ~= res then
+					ShowHiddenMsg("[" .. tostring(player.Name) .. "]: " .. tostring(res), library.flags.spycolor)
+				end
+			end
+		end)
+	end)
+end
+chat:AddToggle{ text = "Translator", flag = "translate" }
+chat:AddToggle{ text = "Show Hidden Message", flag = "chatspy" }
+chat:AddToggle{ text = "Show All Message", flag = "allchat" }
+chat:AddColor{ text = "Chat Color", color = Color3.new(1, 0, 0), flag = "spycolor" }
+
+-- ----------------//TELEPORT SERVICE//-----------------
+local function serverhop()
+	print"Server Hopping"
+	local starterGui = game:GetService"StarterGui"
+	starterGui:SetCore("SendNotification", { Title = "Server Hop", Text = "Looking For A Server", Duration = 2 })
+	local id = nil
+	if not game:IsLoaded() then repeat wait() until game:IsLoaded() end
+	local goodserver = nil
+	local once = false
+	local gamelink = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
+
+	function serversearch()
+		for _, v in pairs(game:GetService"HttpService":JSONDecode(game:HttpGetAsync(gamelink)).data) do
+			if type(v) == "table" and game.Players.MaxPlayers > v.playing then
+				if v.id ~= game.JobId then
+					goodserver = v.id
+					if not once then
+						print("Server Found" .. v.id)
+						once = true
+						id = v.id
+						starterGui:SetCore("SendNotification", { Title = "Switching Server", Text = "Server Found\n" .. v.id, Duration = 2 })
+						game:GetService"TeleportService":TeleportToPlaceInstance(game.PlaceId, goodserver)
+					end
+				end
+			end
+		end
+	end
+
+	function getservers()
+		serversearch()
+		for i, v in pairs(game:GetService"HttpService":JSONDecode(game:HttpGetAsync(gamelink))) do
+			if i == "nextPageCursor" then
+				if gamelink:find"&cursor=" then
+					local a = gamelink:find"&cursor="
+					local b = gamelink:sub(a)
+					gamelink = gamelink:gsub(b, "")
+				end
+				gamelink = gamelink .. "&cursor=" .. v
+				getservers()
+			end
+		end
+	end
+
+	getservers()
+	if id == nil then
+		print"Server Hop Failed"
+		starterGui:SetCore("SendNotification", { Title = "Server Hop Failed", Text = "No Other Server Found", Duration = 2 })
+	end
+end
+
+-- //gui
+tp:AddButton{
+	text = "Rejoin",
+	callback = function(v)
+		local starterGui = game:GetService"StarterGui"
+		starterGui:SetCore("SendNotification", { Title = "Tp Service", Text = "Rejoining Server", Duration = 2 })
+		game:GetService"TeleportService":TeleportToPlaceInstance(game.PlaceId, game.JobId)
+	end
+}
+tp:AddButton{ text = "Switch Server", callback = function(v) serverhop() end }
+library:Init()
