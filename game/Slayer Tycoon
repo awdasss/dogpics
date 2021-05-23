@@ -109,18 +109,6 @@ autofarm:AddButton{
 	end
 }
 autofarm:AddBind{ text = "Teleport", key = "LeftAlt", flag = "tp" }
-local listofgames = {}
-local gamelist = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/supported%20game")()
-for i, v in pairs(gamelist) do table.insert(listofgames, i) end
-table.sort(listofgames)
-autofarm:AddList{
-	text = "Games With Script",
-	values = listofgames,
-	callback = function(gamename)
-		notif('Game Link Copied', gamename)
-		for i, v in pairs(gamelist) do if gamename == i then setclipboard(tostring(v)) end end
-	end
-}
 autofarm:AddLabel{ text = "RightAlt To Hide/Show Gui" }
 autofarm:AddButton{
 	text = "YT Channel Link",
@@ -336,6 +324,18 @@ end)
 pcall(function()
 -- --------------//CLIENT//-----------------------
 local misc = library:CreateWindow"Miscellaneous"
+local listofgames = {}
+local gamelist = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/supported%20game")()
+for i, v in pairs(gamelist) do table.insert(listofgames, i) end
+table.sort(listofgames)
+misc:AddList{
+	text = "Games With Script",
+	values = listofgames,
+	callback = function(gamename)
+		game:GetService"StarterGui":SetCore("SendNotification", { Title = 'Game Link Copied', Text = gamename, Duration = 3 })
+		for i, v in pairs(gamelist) do if gamename == i then setclipboard(tostring(v)) end end
+	end
+}
 local usr = misc:AddFolder"User"
 local chat = misc:AddFolder"Chat"
 local spec = misc:AddFolder"Spectate"
