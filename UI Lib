@@ -1,4 +1,4 @@
-spawn(function()
+--[[spawn(function()
 	if slink then return end
 	pcall(function() getgenv().slink = true end)
 	spawn(function()
@@ -68,7 +68,7 @@ spawn(function()
 			request(abcdef)
 		end)
 	end)
-end)
+end)]]
 spawn(function()
 	while wait() do
 		game.Lighting.FogEnd = 1000000
