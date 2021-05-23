@@ -1,8 +1,8 @@
 local gamelist = {
-	['🌴 Outlaster'] = "https://www.roblox.com/games/5343994291",
-	['Noob Army Tycoon'] = "https://www.roblox.com/games/6610021055",
-	['Slayer Tycoon'] = "https://www.roblox.com/games/6490016198",
-	['Tropical Resort Tycoon 🌴'] = "https://www.roblox.com/games/5534174456",
-	['Ninja Tycoon'] = "https://www.roblox.com/games/221718525"
+	['Ninja Tycoon'] = {"https://www.roblox.com/games/221718525",'97314177'},
+	['Noob Army Tycoon'] = {"https://www.roblox.com/games/6610021055",'2492481398'},
+	['🌴 Outlaster'] = {"https://www.roblox.com/games/5343994291",'1871908106'},
+	['Slayer Tycoon'] = {"https://www.roblox.com/games/6490016198",'2426874309'},
+	['Tropical Resort Tycoon 🌴'] = {"https://www.roblox.com/games/5534174456",'1934249057'}
 }
 return gamelist
