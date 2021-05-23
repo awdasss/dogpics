@@ -324,18 +324,27 @@ end)
 pcall(function()
 -- --------------//CLIENT//-----------------------
 local misc = library:CreateWindow"Miscellaneous"
-local listofgames = {}
+local bruh = misc:AddFolder"Games With Script"
 local gamelist = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/supported%20game")()
-for i, v in pairs(gamelist) do table.insert(listofgames, i) end
-table.sort(listofgames)
-misc:AddList{
-	text = "Games With Script",
-	values = listofgames,
-	callback = function(gamename)
-		game:GetService"StarterGui":SetCore("SendNotification", { Title = 'Game Link Copied', Text = gamename, Duration = 3 })
-		for i, v in pairs(gamelist) do if gamename == i then setclipboard(tostring(v)) end end
-	end
-}
+function get_player_count(id)
+	local list = game:GetService"HttpService":JSONDecode(game:HttpGet("https://games.roblox.com/v1/games?universeIds=" .. tostring(id))).data
+	return list[1].playing
+end
+for i, v in pairs(gamelist) do
+	local link = v[1]
+	local gameid = get_player_count(v[2])
+	local lol = bruh:AddFolder(i)
+	lol:AddLabel{ text = "Current Players Playing:" }
+	lol:AddLabel{ text = gameid }
+	lol:AddButton{
+		text = "Copy Game Link",
+		callback = function()
+			game:GetService"StarterGui":SetCore("SendNotification", { Title = "Game Link Copied", Text = i, Duration = 3 })
+			setclipboard(tostring(link))
+		end
+	}
+end
+bruh:AddLabel{ text = "" }
 local usr = misc:AddFolder"User"
 local chat = misc:AddFolder"Chat"
 local spec = misc:AddFolder"Spectate"
