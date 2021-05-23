@@ -7,6 +7,36 @@ local LService = game:GetService"Lighting"
 local input = game:GetService"UserInputService"
 local mouse = client:GetMouse()
 local misc = library:CreateWindow"Miscellaneous"
+local bruh = misc:AddFolder"Games With Script"
+local gamelist = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/supported%20game")()
+function get_player_count(id)
+	local list = game:GetService"HttpService":JSONDecode(game:HttpGet("https://games.roblox.com/v1/games?universeIds=" .. tostring(id))).data
+	return list[1].playing
+end
+for i, v in pairs(gamelist) do
+	local link = v[1]
+	local gameid = get_player_count(v[2])
+	local lol = bruh:AddFolder(i)
+	lol:AddLabel{ text = "Current Players Playing:" }
+	lol:AddLabel{ text = gameid }
+	lol:AddButton{
+		text = "Copy Game Link",
+		callback = function()
+			game:GetService"StarterGui":SetCore("SendNotification", { Title = "Game Link Copied", Text = i, Duration = 3 })
+			setclipboard(tostring(link))
+		end
+	}
+	if game:GetService("PermissionsService"):GetIsThirdPartyTeleportAllowed() then
+		lol:AddButton{
+			text = "Teleport To Game",
+			callback = function()
+				game:GetService"StarterGui":SetCore("SendNotification", { Title = "Teleport Service", Text = 'Teleporting to\n'..game:GetService"MarketplaceService":GetProductInfo(v[3]).Name, Duration = 3 })
+				game:GetService"TeleportService":Teleport(v[3], client)
+			end
+		}
+	end
+end
+bruh:AddLabel{ text = "" }
 local usr = misc:AddFolder"User"
 local animationfol = misc:AddFolder"Animations & Emotes"
 local chat = misc:AddFolder"Chat"
@@ -416,16 +446,4 @@ pcall(function()
 		tp:AddButton{ text = "Switch Server", callback = function(v) serverhop() end }
 	end)
 end)
-local listofgames = {}
-local gamelist = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/supported%20game")()
-for i, v in pairs(gamelist) do table.insert(listofgames, i) end
-table.sort(listofgames)
-misc:AddList{
-	text = "Games With Script",
-	values = listofgames,
-	callback = function(gamename)
-		notif('Game Link Copied', gamename)
-		for i, v in pairs(gamelist) do if gamename == i then setclipboard(tostring(v)) end end
-	end
-}
 library:Init()
