@@ -46,6 +46,7 @@ autofarm:AddButton{
 autofarm:AddLabel{ text = "Mr Jack" }
 spawn(function()
 	while wait() do
+        if not library.flags.obby and not library.flags.autobuild then CAS:UnbindAction(FREEZE_COMMAND) end
 		if library.flags.autobuild then
 			nomove()
 			pcall(function()
@@ -65,18 +66,13 @@ spawn(function()
 						end
 					end
 				end
-				for _, v in next, workspace.Tycoons[game.Players.LocalPlayer.UserId].ATMs:GetDescendants() do
+                pcall(function()
 					if not library.flags.obby and not library.flags.autobuild then CAS:UnbindAction(FREEZE_COMMAND) end
-					if not library.flags.autobuild then break end
-					if v.Name == "Button" then
-						pcall(function()
-							client.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(0, 2.2, 7)
-							client.Character.Humanoid:MoveTo(v.Position)
-							client.Character.Humanoid.MoveToFinished:Wait()
-							wait(0.5)
-						end)
-					end
-				end
+					client.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Tycoons[game.Players.LocalPlayer.UserId].ATMs.Lobby.Button.CFrame * CFrame.new(0, 2.2, 7)
+                    client.Character.Humanoid:MoveTo(game:GetService("Workspace").Tycoons[game.Players.LocalPlayer.UserId].ATMs.Lobby.Button.Position)
+                    client.Character.Humanoid.MoveToFinished:Wait()
+                    wait(0.2)
+                end)
 			end)
 		end
 		if library.flags.obby then
