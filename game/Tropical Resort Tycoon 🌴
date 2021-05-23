@@ -321,6 +321,18 @@ tp:AddButton{
 	end
 }
 tp:AddButton{ text = "Switch Server", callback = function(v) serverhop() end }
+local listofgames = {}
+local gamelist = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/supported%20game")()
+for i, v in pairs(gamelist) do table.insert(listofgames, i) end
+table.sort(listofgames)
+autofarm:AddList{
+	text = "Games With Script",
+	values = listofgames,
+	callback = function(gamename)
+		notif('Game Link Copied', gamename)
+		for i, v in pairs(gamelist) do if gamename == i then setclipboard(tostring(v)) end end
+	end
+}
 local notif = library:CreateWindow("NOTIFICATION")
 notif:AddLabel{ text = "Want a Permanent Key?"}
 notif:AddLabel{ text = "Become My Video Editor!"}
