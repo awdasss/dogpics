@@ -310,6 +310,15 @@ for i, v in pairs(gamelist) do
 			setclipboard(tostring(link))
 		end
 	}
+	if game:GetService("PermissionsService"):GetIsThirdPartyTeleportAllowed() then
+		lol:AddButton{
+			text = "Teleport To Game",
+			callback = function()
+				game:GetService"StarterGui":SetCore("SendNotification", { Title = "Teleport Service", Text = 'Teleporting to\n'..game:GetService"MarketplaceService":GetProductInfo(v[3]).Name, Duration = 3 })
+				game:GetService"TeleportService":Teleport(v[3], client)
+			end
+		}
+	end
 end
 bruh:AddLabel{ text = "" }
 local usr = misc:AddFolder"User"
