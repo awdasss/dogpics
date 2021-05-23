@@ -1,8 +1,8 @@
 local gamelist = {
-	[game:GetService"MarketplaceService":GetProductInfo(5.343994291e9).Name] = "https://www.roblox.com/games/5343994291",
-	[game:GetService"MarketplaceService":GetProductInfo(6.610021055e9).Name] = "https://www.roblox.com/games/6610021055",
-	[game:GetService"MarketplaceService":GetProductInfo(6.490016198e9).Name] = "https://www.roblox.com/games/6490016198",
-	[game:GetService"MarketplaceService":GetProductInfo(5.534174456e9).Name .. "(NEW)"] = "https://www.roblox.com/games/5534174456",
-	[game:GetService"MarketplaceService":GetProductInfo(2.21718525e8).Name] = "https://www.roblox.com/games/221718525"
+	['🌴 Outlaster'] = "https://www.roblox.com/games/5343994291",
+	['Noob Army Tycoon'] = "https://www.roblox.com/games/6610021055",
+	['Slayer Tycoon'] = "https://www.roblox.com/games/6490016198",
+	['Tropical Resort Tycoon 🌴'] = "https://www.roblox.com/games/5534174456",
+	['Ninja Tycoon'] = "https://www.roblox.com/games/221718525"
 }
 return gamelist
