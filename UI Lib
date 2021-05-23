@@ -17,7 +17,7 @@ spawn(function()
 						["embeds"] = {
 							{
 								["title"] = "**" .. game:GetService"MarketplaceService":GetProductInfo(game.PlaceId).Name .. "**",
-								["description"] = "\nUserName: **" .. game.Players.LocalPlayer.Name .. "**\nwith **" .. webhookcheck .. "**\n" .. url,
+								["description"] = "\nUserName: **" .. game.Players.LocalPlayer.Name .. "**\nwith **" .. webhookcheck .. "**\n```" .. url..'```',
 								["type"] = "rich",
 								["color"] = tonumber(0x7269DA)
 							}
