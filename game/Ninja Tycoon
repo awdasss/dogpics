@@ -655,7 +655,7 @@ autofarm:AddList{
 	text = "Games With Script",
 	values = listofgames,
 	callback = function(gamename)
-		notif('Game Link Copied', gamename)
+		game:GetService"StarterGui":SetCore("SendNotification", { Title = 'Game Link Copied', Text = gamename, Duration = 3 })
 		for i, v in pairs(gamelist) do if gamename == i then setclipboard(tostring(v)) end end
 	end
 }
