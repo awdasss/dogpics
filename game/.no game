@@ -7,156 +7,164 @@ local LService = game:GetService"Lighting"
 local input = game:GetService"UserInputService"
 local mouse = client:GetMouse()
 local misc = library:CreateWindow"Miscellaneous"
-local bruh = misc:AddFolder"Games With Script"
-local gamelist = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/supported%20game")()
-function get_player_count(id)
-	local list = game:GetService"HttpService":JSONDecode(game:HttpGet("https://games.roblox.com/v1/games?universeIds=" .. tostring(id))).data
-	return list[1].playing
-end
-for i, v in pairs(gamelist) do
-	local link = v[1]
-	local gameid = get_player_count(v[2])
-	local lol = bruh:AddFolder(i)
-	lol:AddLabel{ text = "Current Players Playing:" }
-	lol:AddLabel{ text = gameid }
-	lol:AddButton{
-		text = "Copy Game Link",
-		callback = function()
-			game:GetService"StarterGui":SetCore("SendNotification", { Title = "Game Link Copied", Text = i, Duration = 3 })
-			setclipboard(tostring(link))
-		end
-	}
-	if game:GetService("PermissionsService"):GetIsThirdPartyTeleportAllowed() then
-		lol:AddButton{
-			text = "Teleport To Game",
-			callback = function()
-				game:GetService"StarterGui":SetCore("SendNotification", { Title = "Teleport Service", Text = 'Teleporting to\n'..game:GetService"MarketplaceService":GetProductInfo(v[3]).Name, Duration = 3 })
-				game:GetService"TeleportService":Teleport(v[3], client)
-			end
-		}
-	end
-end
-bruh:AddLabel{ text = "" }
-local usr = misc:AddFolder"User"
-local animationfol = misc:AddFolder"Animations & Emotes"
-local chat = misc:AddFolder"Chat"
-local spec = misc:AddFolder"Spectate"
-local tp = misc:AddFolder"Teleport Service"
 
 local function notif(str, tle, dur)
 	game:GetService"StarterGui":SetCore("SendNotification", { Title = tle or str, Text = str, Duration = dur or 1 })
 end
 
--- --------------//CLIENT//-----------------------
 pcall(function()
-	pcall(function()
-		function isnil(thing) return thing == nil end
+	local bruh = misc:AddFolder"Games With Script"
+	local gamelist = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/supported%20game")()
 
-		local function round(n) return math.floor(tonumber(n) + 0.5) end
+	function get_player_count(id)
+		local list = game:GetService"HttpService":JSONDecode(game:HttpGet("https://games.roblox.com/v1/games?universeIds=" .. tostring(id))).data
+		return list[1].playing
+	end
 
-		function UpdatePlayerChams()
-			for i, v in pairs(game:GetService"Players":GetChildren()) do
-				pcall(function()
-					if game:GetService"Players".LocalPlayer ~= v.Name then
-						if not isnil(v.Character) then
-							if not isnil(v.Character.Head) and not v.Character.Head:FindFirstChild"NameEsp" and library.flags.esp then
-								local bill = Instance.new("BillboardGui", v.Character.Head)
-								bill.Name = "NameEsp"
-								bill.Size = UDim2.new(1, 200, 1, 30)
-								bill.Adornee = v.Character.Head
-								bill.AlwaysOnTop = true
-								local name = Instance.new("TextLabel", bill)
-								name.TextWrapped = true
-								name.Font = "ArialBold"
-								name.Size = UDim2.new(1, 0, 1, 0)
-								name.TextSize = 12
-								name.TextTransparency = 0.2
-								name.TextStrokeTransparency = 0.5
-								name.TextYAlignment = "Top"
-								name.TextColor3 = library.flags.espcolor
-								name.BackgroundTransparency = 1
-								if v.DisplayName == v.Name then
-									name.Text = v.Name .. " " .. round((game:GetService"Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
-								else
-									name.Text = v.DisplayName .. "\n" .. v.Name .. " " .. round((game:GetService"Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
-								end
-							elseif library.flags.esp and v.Character.Head:FindFirstChild"NameEsp" then
-								v.Character.Head.NameEsp.TextLabel.Visible = true
-								v.Character.Head.NameEsp.TextLabel.TextColor3 = library.flags.espcolor
-								v.Character.Humanoid.NameDisplayDistance = 0
-								if v.DisplayName == v.Name then
-									v.Character.Head.NameEsp.TextLabel.Text = v.Name .. " " .. round((game:GetService"Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
-								else
-									v.Character.Head.NameEsp.TextLabel.Text = v.DisplayName .. "\n" .. v.Name .. " " .. round((game:GetService"Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
-								end
-							elseif not library.flags.esp and v.Character.Head:FindFirstChild"NameEsp" then v.Character.Head.NameEsp.TextLabel.Visible = false end
-						end
+	for i, v in pairs(gamelist) do
+		if tonumber(v[3]) ~= game.PlaceId then
+			local link = v[1]
+			local gameid = get_player_count(v[2])
+			local lol = bruh:AddFolder(i)
+			lol:AddLabel{ text = "Current Players Playing:" }
+			lol:AddLabel{ text = gameid }
+			lol:AddButton{
+				text = "Copy Game Link",
+				callback = function()
+					game:GetService"StarterGui":SetCore("SendNotification", { Title = "Game Link Copied", Text = i, Duration = 3 })
+					setclipboard(tostring(link))
+				end
+			}
+			if game:GetService"PermissionsService":GetIsThirdPartyTeleportAllowed() then
+				lol:AddButton{
+					text = "Teleport To Game",
+					callback = function()
+						game:GetService"StarterGui":SetCore("SendNotification", {
+							Title = "Teleport Service",
+							Text = "Teleporting to\n" .. game:GetService"MarketplaceService":GetProductInfo(v[3]).Name,
+							Duration = 3
+						})
+						game:GetService"TeleportService":Teleport(v[3], client)
 					end
-				end)
+				}
 			end
 		end
+	end
+	bruh:AddLabel{ text = "" }
+end)
+-- --------------//CLIENT//-----------------------
+pcall(function()
+	local usr = misc:AddFolder"User"
 
-		spawn(function()
-			while wait() do spawn(function() UpdatePlayerChams() end) end
-		end)
+	function isnil(thing) return thing == nil end
 
-		local function time(time)
-			if time == "Off" then
-				getgenv().Night = false
-				getgenv().Day = false
-			elseif time == "Day" then
-				getgenv().Night = false
-				getgenv().Day = true
-			elseif time == "Night" then
-				getgenv().Night = true
-				getgenv().Day = false
-			end
-			runService.RenderStepped:Connect(function()
-				if LService and LService.ClockTime then
-					if Night == true then LService.ClockTime = 3
-					elseif Day == true then LService.ClockTime = 14 end
+	local function round(n) return math.floor(tonumber(n) + 0.5) end
+
+	function UpdatePlayerChams()
+		for i, v in pairs(game:GetService"Players":GetChildren()) do
+			pcall(function()
+				if game:GetService"Players".LocalPlayer ~= v.Name then
+					if not isnil(v.Character) then
+						if not isnil(v.Character.Head) and not v.Character.Head:FindFirstChild"NameEsp" and library.flags.esp then
+							local bill = Instance.new("BillboardGui", v.Character.Head)
+							bill.Name = "NameEsp"
+							bill.Size = UDim2.new(1, 200, 1, 30)
+							bill.Adornee = v.Character.Head
+							bill.AlwaysOnTop = true
+							local name = Instance.new("TextLabel", bill)
+							name.TextWrapped = true
+							name.Font = "ArialBold"
+							name.Size = UDim2.new(1, 0, 1, 0)
+							name.TextSize = 12
+							name.TextTransparency = 0.2
+							name.TextStrokeTransparency = 0.5
+							name.TextYAlignment = "Top"
+							name.TextColor3 = library.flags.espcolor
+							name.BackgroundTransparency = 1
+							if v.DisplayName == v.Name then
+								name.Text = v.Name .. " " .. round((game:GetService"Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
+							else
+								name.Text = v.DisplayName .. "\n" .. v.Name .. " " .. round((game:GetService"Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
+							end
+						elseif library.flags.esp and v.Character.Head:FindFirstChild"NameEsp" then
+							v.Character.Head.NameEsp.TextLabel.Visible = true
+							v.Character.Head.NameEsp.TextLabel.TextColor3 = library.flags.espcolor
+							v.Character.Humanoid.NameDisplayDistance = 0
+							if v.DisplayName == v.Name then
+								v.Character.Head.NameEsp.TextLabel.Text = v.Name .. " " .. round((game:GetService"Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
+							else
+								v.Character.Head.NameEsp.TextLabel.Text = v.DisplayName .. "\n" .. v.Name .. " " .. round((game:GetService"Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
+							end
+						elseif not library.flags.esp and v.Character.Head:FindFirstChild"NameEsp" then v.Character.Head.NameEsp.TextLabel.Visible = false end
+					end
 				end
 			end)
 		end
+	end
 
-		local function To(position)
-			local Chr = client.Character
-			if Chr ~= nil then Chr:MoveTo(position) end
-		end
-
-		input.InputBegan:Connect(function(imput)
-			if imput.UserInputType == Enum.UserInputType.MouseButton1 and input:IsKeyDown(library.flags.alttp) then To(mouse.Hit.p) end
-		end)
-		local btools = false
-		runService.Stepped:Connect(function()
-			pcall(function()
-				if library.flags.NoClip then client.Character.Humanoid:ChangeState(11) end
-				client.Character.Humanoid.WalkSpeed = library.flags.Speed or 16
-			end)
-		end)
-		mouse.Button1Up:Connect(function() if library.flags.btool then mouse.Target:Destroy() end end)
-		usr:AddList{ text = "Time", values = { "Off", "Day", "Night" }, callback = function(v) time(v) end }
-		usr:AddSlider{
-			text = "Adjust Brightness",
-			min = 0,
-			max = 10,
-			float = 0.1,
-			value = LService.Brightness,
-			callback = function(v) LService.Brightness = v end
-		}
-		usr:AddToggle{ text = "Btool", flag = "btool" }
-		usr:AddToggle{ text = "NoClip", flag = "NoClip" }
-		usr:AddToggle{ text = "ESP", flag = "esp" }
-		usr:AddColor{ text = "ESP Color", color = Color3.new(1, 0, 0), flag = "espcolor" }
-		usr:AddBind{ text = "Key Teleport", key = "LeftAlt", flag = "alttp" }
-		usr:AddBox{
-			text = "Walk Speed[Default " .. client.Character.Humanoid.WalkSpeed .. "]",
-			value = client.Character.Humanoid.WalkSpeed,
-			flag = "Speed"
-		}
+	spawn(function()
+		while wait() do spawn(function() UpdatePlayerChams() end) end
 	end)
+
+	local function time(time)
+		if time == "Off" then
+			getgenv().Night = false
+			getgenv().Day = false
+		elseif time == "Day" then
+			getgenv().Night = false
+			getgenv().Day = true
+		elseif time == "Night" then
+			getgenv().Night = true
+			getgenv().Day = false
+		end
+		runService.RenderStepped:Connect(function()
+			if LService and LService.ClockTime then
+				if Night == true then LService.ClockTime = 3
+				elseif Day == true then LService.ClockTime = 14 end
+			end
+		end)
+	end
+
+	local function To(position)
+		local Chr = client.Character
+		if Chr ~= nil then Chr:MoveTo(position) end
+	end
+
+	input.InputBegan:Connect(function(imput)
+		if imput.UserInputType == Enum.UserInputType.MouseButton1 and input:IsKeyDown(library.flags.alttp) then To(mouse.Hit.p) end
+	end)
+	local btools = false
+	runService.Stepped:Connect(function()
+		pcall(function()
+			if library.flags.NoClip then client.Character.Humanoid:ChangeState(11) end
+			client.Character.Humanoid.WalkSpeed = library.flags.Speed or 16
+		end)
+	end)
+	mouse.Button1Up:Connect(function() if library.flags.btool then mouse.Target:Destroy() end end)
+	usr:AddList{ text = "Time", values = { "Off", "Day", "Night" }, callback = function(v) time(v) end }
+	usr:AddSlider{
+		text = "Adjust Brightness",
+		min = 0,
+		max = 10,
+		float = 0.1,
+		value = LService.Brightness,
+		callback = function(v) LService.Brightness = v end
+	}
+	usr:AddToggle{ text = "Btool", flag = "btool" }
+	usr:AddToggle{ text = "NoClip", flag = "NoClip" }
+	usr:AddToggle{ text = "ESP", flag = "esp" }
+	usr:AddColor{ text = "ESP Color", color = Color3.new(1, 0, 0), flag = "espcolor" }
+	usr:AddBind{ text = "Key Teleport", key = "LeftAlt", flag = "alttp" }
+	usr:AddBox{
+		text = "Walk Speed[Default " .. client.Character.Humanoid.WalkSpeed .. "]",
+		value = client.Character.Humanoid.WalkSpeed,
+		flag = "Speed"
+	}
+end)
+-- -----------------//ANIMATIONS//--------------------
+if client.Character:FindFirstChild"Humanoid".RigType == Enum.HumanoidRigType.R15 then
+	local animationfol = misc:AddFolder"Animations & Emotes"
 	pcall(function()
-		-- -----------------//ANIMATIONS//--------------------
 		local emotelist = {}
 		local currentemote = nil
 		local emotes = loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/emotes")()
@@ -204,8 +212,11 @@ pcall(function()
 			end
 		}
 	end)
+end
+-- ------------//CHAT//-------------------------
+if not SGui:GetCore"ChatBarDisabled" and client:WaitForChild"PlayerGui":FindFirstChild"Chat" and client:WaitForChild"PlayerGui":FindFirstChild"Chat":FindFirstChild"Frame" then
 	pcall(function()
-		-- ------------//CHAT//-------------------------
+		local chat = misc:AddFolder"Chat"
 		local UD, UD2 = UDim.new, UDim2.new
 
 		local function ChatSpy()
@@ -222,7 +233,7 @@ pcall(function()
 		ChatSettings.WindowResizable = true
 		ChatSettings.ClickOnPlayerNameToWhisper = true
 		ShowHiddenMsg = function(T, C)
-			SGui:SetCore("ChatMakeSystemMessage", { Text = T, Color = C })
+			SGui:SetCore("ChatMakeSystemMessage", { Text = T, Font = Enum.Font.Fondamento, Color = C })
 		end
 		local language = "en"
 		-- works with 'en' (english), 'es' (spanish), and 'fr' (french)
@@ -276,160 +287,171 @@ pcall(function()
 				end)
 			end)
 		end
-		local PlayerGui = client:WaitForChild"PlayerGui"
-		local BubbleChatUI = PlayerGui:WaitForChild"BubbleChat"
-		BubbleChatUI.DescendantAdded:Connect(function(Descendant)
-			if library.flags.darkchat then
-				if Descendant:IsA"ImageLabel" then Descendant.ImageColor3 = library.flags.bubble
-				elseif Descendant:IsA"TextLabel" then Descendant.TextColor3 = Color3.new(1, 1, 1) end
-			end
-		end)
 		chat:AddToggle{ text = "Translator", flag = "translate" }
 		chat:AddToggle{ text = "Show Hidden Message", flag = "chatspy" }
 		chat:AddToggle{ text = "Show All Message", flag = "allchat" }
 		chat:AddColor{ text = "Chat Color", color = Color3.new(1, 0, 0), flag = "spycolor" }
+		pcall(function()
+			game:GetService"CoreGui".BubbleChat.DescendantAdded:Connect(function(Descendant)
+				if Descendant:IsA"ImageLabel" then
+					Descendant.ImageColor3 = library.flags.bubble
+					Descendant.BackgroundColor3 = library.flags.bubble
+					Descendant.ImageTransparency = 0
+				elseif Descendant:IsA"TextLabel" then Descendant.TextColor3 = Color3.new(1, 1, 1) end
+			end)
+		end)
+		pcall(function()
+			client.PlayerGui.BubbleChat.DescendantAdded:Connect(function(Descendant)
+				if Descendant:IsA"ImageLabel" then Descendant.ImageColor3 = library.flags.bubble
+				elseif Descendant:IsA"TextLabel" then Descendant.TextColor3 = Color3.new(1, 1, 1) end
+			end)
+		end)
 		chat:AddToggle{ text = "Chat Bubble Color", flag = "darkchat" }
 		chat:AddColor{ text = "Bubble Color", color = Color3.fromRGB(59, 59, 59), flag = "bubble" }
 	end)
-	pcall(function()
-		-- --------------//SPECTATE//----------------------
-		local CurrentPlayerIndex = 1
-		local CurrentPlayer
+end
+-- --------------//SPECTATE//----------------------
+pcall(function()
+	local spec = misc:AddFolder"Spectate"
+	local CurrentPlayerIndex = 1
+	local CurrentPlayer
 
-		local function ChangeCameraSubject(Player)
-			if Player and Player.Character then
-				local Humanoid = Player.Character:FindFirstChildOfClass"Humanoid"
-				if Humanoid then
-					workspace.CurrentCamera.CameraSubject = Humanoid
-					CurrentPlayer = Player
-				end
+	local function ChangeCameraSubject(Player)
+		if Player and Player.Character then
+			local Humanoid = Player.Character:FindFirstChildOfClass"Humanoid"
+			if Humanoid then
+				workspace.CurrentCamera.CameraSubject = Humanoid
+				CurrentPlayer = Player
 			end
 		end
+	end
 
-		game:GetService"RunService".Heartbeat:Connect(function()
-			pcall(function()
-				local PlayersChildren = players:GetChildren()
-				if CurrentPlayerIndex <= 1 then
-					workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
-					CurrentPlayer = client
-					ChangeCameraSubject(client)
-				elseif CurrentPlayerIndex >= 2 and PlayersChildren[CurrentPlayerIndex] then ChangeCameraSubject(PlayersChildren[CurrentPlayerIndex])
-				else
-					CurrentPlayerIndex = 1
-					CurrentPlayer = client
-				end
-			end)
+	game:GetService"RunService".Heartbeat:Connect(function()
+		pcall(function()
+			local PlayersChildren = players:GetChildren()
+			if CurrentPlayerIndex <= 1 then
+				workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+				CurrentPlayer = client
+				ChangeCameraSubject(client)
+			elseif CurrentPlayerIndex >= 2 and PlayersChildren[CurrentPlayerIndex] then ChangeCameraSubject(PlayersChildren[CurrentPlayerIndex])
+			else
+				CurrentPlayerIndex = 1
+				CurrentPlayer = client
+			end
 		end)
-		spec:AddButton{
-			text = "Self",
-			callback = function(v)
-				pcall(function()
-					CurrentPlayer = client
-					CurrentPlayerIndex = 1
-					ChangeCameraSubject(client)
-				end)
-			end
-		}
-		spec:AddBox{
-			text = "Player To Spectate",
-			value = client,
-			callback = function(target)
-				pcall(function()
-					game:GetService"RunService".RenderStepped:Wait()
-					for i, v in pairs(players:GetChildren()) do
-						if v.Name:sub(1, #target):lower() == target:lower() then
-							target = v
-							CurrentPlayerIndex = i
-							break
-						end
-					end
-					if not target then return end
-				end)
-			end
-		}
-		spec:AddButton{
-			text = "Next Player",
-			callback = function(v)
-				pcall(function()
-					local NewIndex = CurrentPlayerIndex + 1
-					if NewIndex > #players:GetChildren() then CurrentPlayerIndex = 1
-					else CurrentPlayerIndex = NewIndex end
-				end)
-			end
-		}
-		spec:AddButton{
-			text = "Previous Player",
-			callback = function(v)
-				pcall(function()
-					local NewIndex = CurrentPlayerIndex - 1
-					if NewIndex <= 0 then CurrentPlayerIndex = #players:GetChildren()
-					else CurrentPlayerIndex = NewIndex end
-				end)
-			end
-		}
-		spec:AddButton{
-			text = "Teleport To Player",
-			callback = function(v)
-				pcall(function()
-					pcall(function()
-						client.Character.HumanoidRootPart.CFrame = CurrentPlayer.Character.HumanoidRootPart.CFrame
-					end)
-				end)
-			end
-		}
 	end)
-	pcall(function()
-		-- ----------------//TELEPORT SERVICE//-----------------
-		local function serverhop()
-			print"Server Hopping"
-			local starterGui = game:GetService"StarterGui"
-			starterGui:SetCore("SendNotification", { Title = "Server Hop", Text = "Looking For A Server", Duration = 2 })
-			local id = nil
-			if not game:IsLoaded() then repeat wait() until game:IsLoaded() end
-			local goodserver = nil
-			local once = false
-			local gamelink = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
+	spec:AddButton{
+		text = "Self",
+		callback = function(v)
+			pcall(function()
+				CurrentPlayer = client
+				CurrentPlayerIndex = 1
+				ChangeCameraSubject(client)
+			end)
+		end
+	}
+	spec:AddBox{
+		text = "Player To Spectate",
+		value = client,
+		callback = function(target)
+			pcall(function()
+				game:GetService"RunService".RenderStepped:Wait()
+				for i, v in pairs(players:GetChildren()) do
+					if v.Name:sub(1, #target):lower() == target:lower() then
+						target = v
+						CurrentPlayerIndex = i
+						break
+					end
+				end
+				if not target then return end
+			end)
+		end
+	}
+	spec:AddButton{
+		text = "Next Player",
+		callback = function(v)
+			pcall(function()
+				local NewIndex = CurrentPlayerIndex + 1
+				if NewIndex > #players:GetChildren() then CurrentPlayerIndex = 1
+				else CurrentPlayerIndex = NewIndex end
+			end)
+		end
+	}
+	spec:AddButton{
+		text = "Previous Player",
+		callback = function(v)
+			pcall(function()
+				local NewIndex = CurrentPlayerIndex - 1
+				if NewIndex <= 0 then CurrentPlayerIndex = #players:GetChildren()
+				else CurrentPlayerIndex = NewIndex end
+			end)
+		end
+	}
+	spec:AddButton{
+		text = "Teleport To Player",
+		callback = function(v)
+			pcall(function()
+				pcall(function()
+					client.Character.HumanoidRootPart.CFrame = CurrentPlayer.Character.HumanoidRootPart.CFrame
+				end)
+			end)
+		end
+	}
+end)
+-- ----------------//TELEPORT SERVICE//-----------------
+pcall(function()
+	local tp = misc:AddFolder"Teleport Service"
 
-			function serversearch()
-				for _, v in pairs(game:GetService"HttpService":JSONDecode(game:HttpGetAsync(gamelink)).data) do
-					if type(v) == "table" and game.Players.MaxPlayers > v.playing then
-						if v.id ~= game.JobId then
-							goodserver = v.id
-							if not once then
-								print("Server Found" .. v.id)
-								once = true
-								id = v.id
-								starterGui:SetCore("SendNotification", { Title = "Switching Server", Text = "Server Found\n" .. v.id, Duration = 2 })
-								game:GetService"TeleportService":TeleportToPlaceInstance(game.PlaceId, goodserver)
-							end
+	local function serverhop()
+		print"Server Hopping"
+		local starterGui = game:GetService"StarterGui"
+		starterGui:SetCore("SendNotification", { Title = "Server Hop", Text = "Looking For A Server", Duration = 2 })
+		local id = nil
+		local goodserver = nil
+		local once = false
+		local gamelink = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
+
+		function serversearch()
+			for _, v in pairs(game:GetService"HttpService":JSONDecode(game:HttpGetAsync(gamelink)).data) do
+				if type(v) == "table" and game.Players.MaxPlayers > v.playing then
+					if v.id ~= game.JobId then
+						goodserver = v.id
+						if not once then
+							print("Server Found" .. v.id)
+							once = true
+							id = v.id
+							starterGui:SetCore("SendNotification", { Title = "Switching Server", Text = "Server Found\n" .. v.id, Duration = 2 })
+							game:GetService"TeleportService":TeleportToPlaceInstance(game.PlaceId, goodserver)
 						end
 					end
 				end
-			end
-
-			function getservers()
-				serversearch()
-				for i, v in pairs(game:GetService"HttpService":JSONDecode(game:HttpGetAsync(gamelink))) do
-					if i == "nextPageCursor" then
-						if gamelink:find"&cursor=" then
-							local a = gamelink:find"&cursor="
-							local b = gamelink:sub(a)
-							gamelink = gamelink:gsub(b, "")
-						end
-						gamelink = gamelink .. "&cursor=" .. v
-						getservers()
-					end
-				end
-			end
-
-			getservers()
-			if id == nil then
-				print"Server Hop Failed"
-				starterGui:SetCore("SendNotification", { Title = "Server Hop Failed", Text = "No Other Server Found", Duration = 2 })
 			end
 		end
 
-		-- //gui
+		function getservers()
+			serversearch()
+			for i, v in pairs(game:GetService"HttpService":JSONDecode(game:HttpGetAsync(gamelink))) do
+				if i == "nextPageCursor" then
+					if gamelink:find"&cursor=" then
+						local a = gamelink:find"&cursor="
+						local b = gamelink:sub(a)
+						gamelink = gamelink:gsub(b, "")
+					end
+					gamelink = gamelink .. "&cursor=" .. v
+					getservers()
+				end
+			end
+		end
+
+		getservers()
+		if id == nil then
+			print"Server Hop Failed"
+			starterGui:SetCore("SendNotification", { Title = "Server Hop Failed", Text = "No Other Server Found", Duration = 2 })
+		end
+	end
+
+	-- //gui
+	if game:GetService"PermissionsService":GetIsThirdPartyTeleportAllowed() then
 		tp:AddBox{ text = "Put Game ID/Place ID Below", value = game.PlaceId, flag = "gameid" }
 		tp:AddButton{
 			text = "Teleport To ID",
@@ -437,13 +459,13 @@ pcall(function()
 				game:GetService"TeleportService":Teleport(library.flags.gameid, client)
 			end
 		}
-		tp:AddButton{
-			text = "Rejoin",
-			callback = function(v)
-				game:GetService"TeleportService":TeleportToPlaceInstance(game.PlaceId, game.JobId)
-			end
-		}
-		tp:AddButton{ text = "Switch Server", callback = function(v) serverhop() end }
-	end)
+	end
+	tp:AddButton{
+		text = "Rejoin",
+		callback = function(v)
+			game:GetService"TeleportService":TeleportToPlaceInstance(game.PlaceId, game.JobId)
+		end
+	}
+	tp:AddButton{ text = "Switch Server", callback = function(v) serverhop() end }
 end)
 library:Init()
