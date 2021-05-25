@@ -109,6 +109,29 @@ change:AddButton{
 		game:GetService"ReplicatedStorage".Remotes.RespawnArmy:FireServer()
 	end
 }
+if #game:GetService("Workspace").Map.Treasures:GetChildren() > 1 then
+autofarm:AddButton{
+	text = "Collect All Chest",
+	callback = function()
+for i = 1, 10 do
+pcall(function()
+game:GetService("Workspace").Map.Treasures:GetChildren()[i].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,-2)
+wait(.15)
+fireproximityprompt(game:GetService("Workspace").Map.Treasures:GetChildren()[i].ProximityPrompt, 1)
+wait(.1)
+fireproximityprompt(game:GetService("Workspace").Map.Treasures:GetChildren()[i].ProximityPrompt, 1)
+wait(.1)
+fireproximityprompt(game:GetService("Workspace").Map.Treasures:GetChildren()[i].ProximityPrompt, 1)
+wait(.1)
+fireproximityprompt(game:GetService("Workspace").Map.Treasures:GetChildren()[i].ProximityPrompt, 1)
+wait(.1)
+fireproximityprompt(game:GetService("Workspace").Map.Treasures:GetChildren()[i].ProximityPrompt, 1)
+wait(.3)
+end)
+end
+	end
+}
+end
 autofarm:AddToggle{ text = "NoClip", flag = "NoClip" }
 autofarm:AddBox{ text = "WalkSpeed [Default 30]", value = 30, flag = "Speed" }
 autofarm:AddBind{ text = "Teleport", key = "LeftAlt", flag = "tp" }
