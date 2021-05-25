@@ -120,6 +120,17 @@ autofarm:AddButton{
 }
 autofarm:AddLabel{ text = "RightAlt To Hide/Show Gui" }
 autofarm:AddButton{
+	text = "Copy Discord Server Link",
+	callback = function()
+        game:GetService"StarterGui":SetCore("SendNotification", { 
+            Title = "Discord Link Copied", 
+            Text = 'https://discord.gg/vRMFKnYerV', 
+            Duration = 3 
+        })
+		setclipboard(tostring"https://discord.gg/vRMFKnYerV")
+	end
+}
+autofarm:AddButton{
 	text = "YT Channel Link",
 	callback = function()
 		setclipboard(tostring"https://www.youtube.com/channel/UCVcgjkZV9Xdmz2higc93IqQ?sub_confirmation=1")
@@ -677,10 +688,4 @@ pcall(function()
 	}
 	tp:AddButton{ text = "Switch Server", callback = function(v) serverhop() end }
 end)
-local notif = library:CreateWindow"NOTIFICATION"
-notif:AddLabel{ text = "Want a Permanent Key?" }
-notif:AddLabel{ text = "Become My Video Editor!" }
-notif:AddLabel{ text = "For More Details" }
-notif:AddLabel{ text = "Add Me On Discord" }
-notif:AddLabel{ text = "JackIsCool#8443" }
 library:Init()
