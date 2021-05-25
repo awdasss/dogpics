@@ -59,6 +59,12 @@ local chat = autofarm:AddFolder"Chat"
 local tp = autofarm:AddFolder"Teleport Service"
 autofarm:AddLabel{ text = "RightAlt To Hide/Show Gui" }
 autofarm:AddButton{
+	text = "Copy Discord Server Link",
+	callback = function()
+		setclipboard(tostring"https://discord.gg/vRMFKnYerV")
+	end
+}
+autofarm:AddButton{
 	text = "YT Channel Link",
 	callback = function()
 		setclipboard(tostring"https://www.youtube.com/channel/UCVcgjkZV9Xdmz2higc93IqQ?sub_confirmation=1")
@@ -342,10 +348,4 @@ tp:AddButton{
 	end
 }
 tp:AddButton{ text = "Switch Server", callback = function(v) serverhop() end }
-local notif = library:CreateWindow("NOTIFICATION")
-notif:AddLabel{ text = "Want a Permanent Key?"}
-notif:AddLabel{ text = "Become My Video Editor!"}
-notif:AddLabel{ text = "For More Details"}
-notif:AddLabel{ text = "Add Me On Discord"}
-notif:AddLabel{ text = "JackIsCool#8443"}
 library:Init()
