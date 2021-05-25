@@ -167,6 +167,17 @@ autofarm:AddLabel{ text = "RightAlt To Hide/Show Gui" }
 autofarm:AddLabel{ text = "Credits to" }
 autofarm:AddLabel{ text = "Pylogon#1337" }
 autofarm:AddButton{
+	text = "Copy Discord Server Link",
+	callback = function()
+        game:GetService"StarterGui":SetCore("SendNotification", { 
+            Title = "Discord Link Copied", 
+            Text = 'https://discord.gg/vRMFKnYerV', 
+            Duration = 3 
+        })
+		setclipboard(tostring"https://discord.gg/vRMFKnYerV")
+	end
+}
+autofarm:AddButton{
 	text = "YT Channel Link",
 	callback = function()
 		setclipboard(tostring"https://www.youtube.com/channel/UCVcgjkZV9Xdmz2higc93IqQ?sub_confirmation=1")
@@ -380,14 +391,4 @@ end
 chat:AddToggle{ text = "Show Hidden Message", flag = "chatspy" }
 chat:AddToggle{ text = "Show All Message", flag = "allchat" }
 chat:AddColor{ text = " Chat Color", color = Color3.new(1, 0, 0), flag = "spycolor" }
-local notif = library:CreateWindow"NOTIFICATION"
-notif:AddLabel{ text = "I Just UnPatched This!" }
-notif:AddLabel{ text = "Contact Me To Discord" }
-notif:AddLabel{ text = "If It Get Patch Again!" }
-notif:AddLabel{ text = "" }
-notif:AddLabel{ text = "Want a Permanent Key?" }
-notif:AddLabel{ text = "Become My Video Editor!" }
-notif:AddLabel{ text = "For More Details" }
-notif:AddLabel{ text = "Add Me On Discord" }
-notif:AddLabel{ text = "JackIsCool#8443" }
 library:Init()
