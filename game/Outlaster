@@ -146,6 +146,13 @@ ESP:AddLabel({
     text = "By: So So",
 });
 
+ESP:AddButton{
+	text = "Copy Discord Server Link",
+	callback = function()
+		setclipboard(tostring"https://discord.gg/vRMFKnYerV")
+	end
+}
+
 ESP:AddLabel({
     text = "YT Channel: Mr Jack",
 });
@@ -254,11 +261,4 @@ spawn(function()
         end
     end
 end)
-local notif = library:CreateWindow("NOTIFICATION")
-notif:AddLabel{ text = "Want a Permanent Key?"}
-notif:AddLabel{ text = "Become My Video Editor!"}
-notif:AddLabel{ text = "For More Details"}
-notif:AddLabel{ text = "Add Me On Discord"}
-notif:AddLabel{ text = "JackIsCool#8443"}
-
 library:Init()
