@@ -113,6 +113,11 @@ autofarm:AddLabel{ text = "RightAlt To Hide/Show Gui" }
 autofarm:AddButton{
 	text = "Copy Discord Server Link",
 	callback = function()
+        game:GetService"StarterGui":SetCore("SendNotification", { 
+            Title = "Discord Link Copied", 
+            Text = 'https://discord.gg/vRMFKnYerV', 
+            Duration = 3 
+        })
 		setclipboard(tostring"https://discord.gg/vRMFKnYerV")
 	end
 }
