@@ -1,0 +1,604 @@
+local library = loadstring(game:HttpGetAsync "https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/UI%20Lib")()
+local players = game:GetService "Players"
+local client = players.LocalPlayer
+local SGui = game:GetService "StarterGui"
+local runService = game:GetService "RunService"
+local LService = game:GetService "Lighting"
+local input = game:GetService "UserInputService"
+local mouse = client:GetMouse()
+local sim = library:CreateWindow "Factory Simulator"
+local misc = library:CreateWindow "Miscellaneous"
+
+local function notif(str, tle, dur)
+    game:GetService "StarterGui":SetCore("SendNotification", {Title = tle or str, Text = str, Duration = dur or 1})
+end
+
+pcall(function()
+    local bruh = misc:AddFolder "Games With Script"
+    local gamelist = loadstring(game:HttpGetAsync "https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/supported%20game")()
+    
+    function get_player_count(id)
+        local list = game:GetService "HttpService":JSONDecode(game:HttpGet("https://games.roblox.com/v1/games?universeIds=" .. tostring(id))).data
+        return list[1].playing
+    end
+    
+    for i, v in pairs(gamelist) do
+        if tonumber(v[3]) ~= game.PlaceId then
+            local link = v[1]
+            local gameid = get_player_count(v[2])
+            local lol = bruh:AddFolder(i)
+            lol:AddLabel{text = "Current Players Playing:"}
+            lol:AddLabel{text = gameid}
+            lol:AddButton{
+                text = "Copy Game Link",
+                callback = function()
+                    game:GetService "StarterGui":SetCore("SendNotification", {Title = "Game Link Copied", Text = i, Duration = 3})
+                    setclipboard(tostring(link))
+                end
+            }
+            if game:GetService "PermissionsService":GetIsThirdPartyTeleportAllowed() then
+                lol:AddButton{
+                    text = "Teleport To Game",
+                    callback = function()
+                        game:GetService "StarterGui":SetCore("SendNotification", {
+                            Title = "Teleport Service",
+                            Text = "Teleporting to\n" .. game:GetService "MarketplaceService":GetProductInfo(v[3]).Name,
+                            Duration = 3
+                        })
+                        game:GetService "TeleportService":Teleport(v[3], client)
+                    end
+                }
+            end
+        end
+    end
+    bruh:AddLabel{text = ""}
+end)
+-- --------------//CLIENT//-----------------------
+pcall(function()
+    local usr = misc:AddFolder "User"
+    
+    function isnil(thing) return thing == nil end
+    
+    local function round(n) return math.floor(tonumber(n) + 0.5) end
+    
+    function UpdatePlayerChams()
+        for i, v in pairs(game:GetService "Players":GetChildren()) do
+            pcall(function()
+                if game:GetService "Players".LocalPlayer ~= v.Name then
+                    if not isnil(v.Character) then
+                        if not isnil(v.Character.Head) and not v.Character.Head:FindFirstChild "NameEsp" and library.flags.esp then
+                            local bill = Instance.new("BillboardGui", v.Character.Head)
+                            bill.Name = "NameEsp"
+                            bill.Size = UDim2.new(1, 200, 1, 30)
+                            bill.Adornee = v.Character.Head
+                            bill.AlwaysOnTop = true
+                            local name = Instance.new("TextLabel", bill)
+                            name.TextWrapped = true
+                            name.Font = "ArialBold"
+                            name.Size = UDim2.new(1, 0, 1, 0)
+                            name.TextSize = 12
+                            name.TextTransparency = 0.2
+                            name.TextStrokeTransparency = 0.5
+                            name.TextYAlignment = "Top"
+                            name.TextColor3 = library.flags.espcolor
+                            name.BackgroundTransparency = 1
+                            if v.DisplayName == v.Name then
+                                name.Text = v.Name .. " " .. round((game:GetService "Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
+                            else
+                                name.Text = v.DisplayName .. "\n" .. v.Name .. " " .. round((game:GetService "Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
+                            end
+                        elseif library.flags.esp and v.Character.Head:FindFirstChild "NameEsp" then
+                            v.Character.Head.NameEsp.TextLabel.Visible = true
+                            v.Character.Head.NameEsp.TextLabel.TextColor3 = library.flags.espcolor
+                            v.Character.Humanoid.NameDisplayDistance = 0
+                            if v.DisplayName == v.Name then
+                                v.Character.Head.NameEsp.TextLabel.Text = v.Name .. " " .. round((game:GetService "Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
+                            else
+                                v.Character.Head.NameEsp.TextLabel.Text = v.DisplayName .. "\n" .. v.Name .. " " .. round((game:GetService "Players".LocalPlayer.Character.Head.Position - v.Character.Head.Position).Magnitude / 3) .. "m"
+                            end
+                        elseif not library.flags.esp and v.Character.Head:FindFirstChild "NameEsp" then v.Character.Head.NameEsp.TextLabel.Visible = false end
+                    end
+                end
+            end)
+        end
+    end
+    
+    spawn(function()
+        while wait() do spawn(function()UpdatePlayerChams() end) end
+    end)
+    
+    local function To(position)
+        local Chr = client.Character
+        if Chr ~= nil then Chr:MoveTo(position) end
+    end
+    
+    input.InputBegan:Connect(function(imput)
+        if imput.UserInputType == Enum.UserInputType.MouseButton1 and input:IsKeyDown(library.flags.alttp) then To(mouse.Hit.p) end
+    end)
+    local btools = false
+    runService.Stepped:Connect(function()
+        pcall(function()
+            if library.flags.farm or library.flags.NoClip then client.Character.Humanoid:ChangeState(11) end
+            client.Character.Humanoid.WalkSpeed = library.flags.Speed or 16
+        end)
+    end)
+    mouse.Button1Up:Connect(function() if library.flags.btool then mouse.Target:Destroy() end end)
+    usr:AddToggle{text = "Btool", flag = "btool"}
+    usr:AddToggle{text = "NoClip", flag = "NoClip"}
+    usr:AddToggle{text = "ESP", flag = "esp"}
+    usr:AddColor{text = "ESP Color", color = Color3.new(1, 0, 0), flag = "espcolor"}
+    usr:AddBind{text = "Key Teleport", key = "LeftAlt", flag = "alttp"}
+    usr:AddBox{
+        text = "Walk Speed[Default " .. client.Character.Humanoid.WalkSpeed .. "]",
+        value = client.Character.Humanoid.WalkSpeed,
+        flag = "Speed"
+    }
+end)
+-- -----------------//ANIMATIONS//--------------------
+if client.Character:FindFirstChild "Humanoid".RigType == Enum.HumanoidRigType.R15 then
+    local animationfol = misc:AddFolder "Animations & Emotes"
+    pcall(function()
+        local emotelist = {}
+        local currentemote = nil
+        local emotes = loadstring(game:HttpGetAsync "https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/emotes")()
+        for i, v in pairs(emotes) do table.insert(emotelist, i) end
+        local animations, playanimation = loadstring(game:HttpGetAsync "https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/need%20update!/animations")()
+        table.sort(animations)
+        table.sort(emotelist)
+        animationfol:AddList{text = "Select Animation", flag = "chosen_animation", values = animations}
+        animationfol:AddButton{
+            text = "Use Animation",
+            callback = function()playanimation(library.flags.chosen_animation) end
+        }
+        animationfol:AddList{text = "Select Emote", flag = "chosen_emote", values = emotelist}
+        animationfol:AddBox{
+            text = "Emote Speed [Default 1]",
+            callback = function(v)
+                pcall(function() if currentemote ~= nil then currentemote:AdjustSpeed(v) end end)
+            end,
+            flag = "chosen_emotespeed"
+        }
+        animationfol:AddButton{
+            text = "Use Emote",
+            callback = function()
+                pcall(function()
+                    notif(library.flags.chosen_emote, "Emote")
+                    for i, v in pairs(emotes) do
+                        if library.flags.chosen_emote == i then
+                            if currentemote ~= nil then currentemote:Stop() end
+                            local AnimationId = v
+                            local Anim = Instance.new "Animation"
+                            Anim.AnimationId = "rbxassetid://" .. AnimationId
+                            currentemote = client.Character.Humanoid:LoadAnimation(Anim)
+                            currentemote:Play(0)
+                            currentemote:AdjustSpeed(library.flags.chosen_emotespeed)
+                            client.Character.Animate.Disabled = true
+                            client.Character.Humanoid.Running:connect(function(speed)
+                                if speed > 0 then
+                                    client.Character.Animate.Disabled = false
+                                    currentemote:Stop(0)
+                                end
+                            end)
+                        end
+                    end
+                end)
+            end
+        }
+    end)
+end
+-- ------------//CHAT//-------------------------
+if not SGui:GetCore "ChatBarDisabled" and client:WaitForChild "PlayerGui":FindFirstChild "Chat" and client:WaitForChild "PlayerGui":FindFirstChild "Chat":FindFirstChild "Frame" then
+    pcall(function()
+        local chat = misc:AddFolder "Chat"
+        local UD, UD2 = UDim.new, UDim2.new
+        
+        local function ChatSpy()
+            local ChatSpyFrame = client:WaitForChild "PlayerGui":WaitForChild "Chat".Frame
+            ChatSpyFrame.ChatChannelParentFrame.Visible = true
+            ChatSpyFrame.ChatBarParentFrame.Position = ChatSpyFrame.ChatChannelParentFrame.Position + UD2(UD(), ChatSpyFrame.ChatChannelParentFrame.Size.Y)
+        end
+        
+        -- brings back chat for games that remove it
+        ChatSpy()
+        local Chat = game:GetService "Chat"
+        local ClientChatModules = Chat:WaitForChild "ClientChatModules"
+        local ChatSettings = require(ClientChatModules:WaitForChild "ChatSettings")
+        ChatSettings.WindowResizable = true
+        ChatSettings.ClickOnPlayerNameToWhisper = true
+        ShowHiddenMsg = function(T, C)
+            SGui:SetCore("ChatMakeSystemMessage", {Text = T, Font = Enum.Font.Fondamento, Color = C})
+        end
+        local language = "en"
+        -- works with 'en' (english), 'es' (spanish), and 'fr' (french)
+        game.Players.PlayerAdded:Connect(function(player)
+            player.Chatted:Connect(function(messsage)
+                spawn(function()
+                    if library.flags.allchat then
+                        ShowHiddenMsg("[" .. tostring(player) .. "]: " .. tostring(messsage), library.flags.spycolor)
+                    elseif library.flags.chatspy then
+                        if string.find(messsage, "/") or string.find(messsage, "/w") then
+                            ShowHiddenMsg("[" .. tostring(player) .. "]: " .. tostring(messsage), library.flags.spycolor)
+                        end
+                    end
+                end)
+                spawn(function()
+                    if library.flags.translate then
+                        local xd = messsage:lower()
+                        local message = messsage:gsub(" ", "+")
+                        local xd = game:HttpGet("https://normal-api.ml/translate?text=" .. message .. "&to=" .. language .. "")
+                        local data = game.HttpService:JSONDecode(xd)
+                        local res = data.translated
+                        if messsage ~= res then
+                            ShowHiddenMsg("[" .. tostring(player.Name) .. "]: " .. tostring(res), library.flags.spycolor)
+                        end
+                    end
+                end)
+            end)
+        end)
+        for i, player in pairs(game.Players:GetPlayers()) do
+            player.Chatted:Connect(function(messsage)
+                spawn(function()
+                    if library.flags.allchat then
+                        ShowHiddenMsg("[" .. tostring(player) .. "]: " .. tostring(messsage), library.flags.spycolor)
+                    elseif library.flags.chatspy then
+                        if string.find(messsage, "/") or string.find(messsage, "/w") then
+                            ShowHiddenMsg("[" .. tostring(player) .. "]: " .. tostring(messsage), library.flags.spycolor)
+                        end
+                    end
+                end)
+                spawn(function()
+                    if library.flags.translate then
+                        local xd = messsage:lower()
+                        local message = messsage:gsub(" ", "+")
+                        local xd = game:HttpGet("https://normal-api.ml/translate?text=" .. message .. "&to=" .. language .. "")
+                        local data = game.HttpService:JSONDecode(xd)
+                        local res = data.translated
+                        if messsage ~= res then
+                            ShowHiddenMsg("[" .. tostring(player.Name) .. "]: " .. tostring(res), library.flags.spycolor)
+                        end
+                    end
+                end)
+            end)
+        end
+        chat:AddToggle{text = "Translator", flag = "translate"}
+        chat:AddToggle{text = "Show Hidden Message", flag = "chatspy"}
+        chat:AddToggle{text = "Show All Message", flag = "allchat"}
+        chat:AddColor{text = "Chat Color", color = Color3.new(1, 0, 0), flag = "spycolor"}
+        pcall(function()
+            game:GetService "CoreGui".BubbleChat.DescendantAdded:Connect(function(Descendant)
+                if Descendant:IsA "ImageLabel" then
+                    Descendant.ImageColor3 = library.flags.bubble
+                    Descendant.BackgroundColor3 = library.flags.bubble
+                    Descendant.ImageTransparency = 0
+                elseif Descendant:IsA "TextLabel" then Descendant.TextColor3 = Color3.new(1, 1, 1) end
+            end)
+        end)
+        pcall(function()
+            client.PlayerGui.BubbleChat.DescendantAdded:Connect(function(Descendant)
+                if Descendant:IsA "ImageLabel" then Descendant.ImageColor3 = library.flags.bubble
+                elseif Descendant:IsA "TextLabel" then Descendant.TextColor3 = Color3.new(1, 1, 1) end
+            end)
+        end)
+        chat:AddToggle{text = "Chat Bubble Color", flag = "darkchat"}
+        chat:AddColor{text = "Bubble Color", color = Color3.fromRGB(59, 59, 59), flag = "bubble"}
+    end)
+end
+-- --------------//SPECTATE//----------------------
+pcall(function()
+    local spec = misc:AddFolder "Spectate"
+    local CurrentPlayerIndex = 1
+    local CurrentPlayer
+    
+    local function ChangeCameraSubject(Player)
+        if Player and Player.Character then
+            local Humanoid = Player.Character:FindFirstChildOfClass "Humanoid"
+            if Humanoid then
+                workspace.CurrentCamera.CameraSubject = Humanoid
+                CurrentPlayer = Player
+            end
+        end
+    end
+    
+    game:GetService "RunService".Heartbeat:Connect(function()
+        pcall(function()
+            local PlayersChildren = players:GetChildren()
+            if CurrentPlayerIndex <= 1 then
+                workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+                CurrentPlayer = client
+                ChangeCameraSubject(client)
+            elseif CurrentPlayerIndex >= 2 and PlayersChildren[CurrentPlayerIndex] then ChangeCameraSubject(PlayersChildren[CurrentPlayerIndex])
+            else
+                CurrentPlayerIndex = 1
+                CurrentPlayer = client
+            end
+        end)
+    end)
+    spec:AddButton{
+        text = "Self",
+        callback = function(v)
+            pcall(function()
+                CurrentPlayer = client
+                CurrentPlayerIndex = 1
+                ChangeCameraSubject(client)
+            end)
+        end
+    }
+    spec:AddBox{
+        text = "Player To Spectate",
+        value = client,
+        callback = function(target)
+            pcall(function()
+                game:GetService "RunService".RenderStepped:Wait()
+                for i, v in pairs(players:GetChildren()) do
+                    if v.Name:sub(1, #target):lower() == target:lower() then
+                        target = v
+                        CurrentPlayerIndex = i
+                        break
+                    end
+                end
+                if not target then return end
+            end)
+        end
+    }
+    spec:AddButton{
+        text = "Next Player",
+        callback = function(v)
+            pcall(function()
+                local NewIndex = CurrentPlayerIndex + 1
+                if NewIndex > #players:GetChildren() then CurrentPlayerIndex = 1
+                else CurrentPlayerIndex = NewIndex end
+            end)
+        end
+    }
+    spec:AddButton{
+        text = "Previous Player",
+        callback = function(v)
+            pcall(function()
+                local NewIndex = CurrentPlayerIndex - 1
+                if NewIndex <= 0 then CurrentPlayerIndex = #players:GetChildren()
+                else CurrentPlayerIndex = NewIndex end
+            end)
+        end
+    }
+    spec:AddButton{
+        text = "Teleport To Player",
+        callback = function(v)
+            pcall(function()
+                pcall(function()
+                    client.Character.HumanoidRootPart.CFrame = CurrentPlayer.Character.HumanoidRootPart.CFrame
+                end)
+            end)
+        end
+    }
+end)
+-- ----------------//TELEPORT SERVICE//-----------------
+pcall(function()
+    local tp = misc:AddFolder "Teleport Service"
+    
+    local function serverhop()
+        print "Server Hopping"
+        local starterGui = game:GetService "StarterGui"
+        starterGui:SetCore("SendNotification", {Title = "Server Hop", Text = "Looking For A Server", Duration = 2})
+        local id = nil
+        local goodserver = nil
+        local once = false
+        local gamelink = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
+        
+        function serversearch()
+            for _, v in pairs(game:GetService "HttpService":JSONDecode(game:HttpGetAsync(gamelink)).data) do
+                if type(v) == "table" and game.Players.MaxPlayers > v.playing then
+                    if v.id ~= game.JobId then
+                        goodserver = v.id
+                        if not once then
+                            print("Server Found" .. v.id)
+                            once = true
+                            id = v.id
+                            starterGui:SetCore("SendNotification", {Title = "Switching Server", Text = "Server Found\n" .. v.id, Duration = 2})
+                            game:GetService "TeleportService":TeleportToPlaceInstance(game.PlaceId, goodserver)
+                        end
+                    end
+                end
+            end
+        end
+        
+        function getservers()
+            serversearch()
+            for i, v in pairs(game:GetService "HttpService":JSONDecode(game:HttpGetAsync(gamelink))) do
+                if i == "nextPageCursor" then
+                    if gamelink:find "&cursor=" then
+                        local a = gamelink:find "&cursor="
+                        local b = gamelink:sub(a)
+                        gamelink = gamelink:gsub(b, "")
+                    end
+                    gamelink = gamelink .. "&cursor=" .. v
+                    getservers()
+                end
+            end
+        end
+        
+        getservers()
+        if id == nil then
+            print "Server Hop Failed"
+            starterGui:SetCore("SendNotification", {Title = "Server Hop Failed", Text = "No Other Server Found", Duration = 2})
+        end
+    end
+    
+    -- //gui
+    if game:GetService "PermissionsService":GetIsThirdPartyTeleportAllowed() then
+        tp:AddBox{text = "Put Game ID/Place ID Below", value = game.PlaceId, flag = "gameid"}
+        tp:AddButton{
+            text = "Teleport To ID",
+            callback = function()
+                game:GetService "TeleportService":Teleport(library.flags.gameid, client)
+            end
+        }
+    end
+    tp:AddButton{
+        text = "Rejoin",
+        callback = function(v)
+            game:GetService "TeleportService":TeleportToPlaceInstance(game.PlaceId, game.JobId)
+        end
+    }
+    tp:AddButton{text = "Switch Server", callback = function(v)serverhop() end}
+end)
+local tier1 = {
+    'CopperOre',
+    'Rock',
+    'Tree'
+}
+local tier2 = {
+    'GoldOre',
+    'HardwoodTree',
+    'IronOre',
+    'Sand'
+}
+local tier3 = {
+    'Diamond',
+    'ResiniteOre',
+    'SuperwoodTree',
+    'TitaniumOre',
+    'UraniumOre'
+}
+local tier4 = {
+    'BluemetalOre',
+    'IceCrystal',
+    'LavaCrystal',
+    'RedmetalOre',
+    'TungstenOre',
+    'UltrawoodTree'
+}
+local resource = {
+    'Rock',
+    'Tree',
+    'CopperOre',
+    'GoldOre',
+    'HardwoodTree',
+    'IronOre',
+    'Sand',
+    'Diamond',
+    'ResiniteOre',
+    'SuperwoodTree',
+    'TitaniumOre',
+    'UraniumOre',
+    'BluemetalOre',
+    'IceCrystal',
+    'LavaCrystal',
+    'RedmetalOre',
+    'TungstenOre',
+    'UltrawoodTree'
+}
+local breaker = false
+spawn(function()
+    while wait() do
+        if library.flags.farm then
+            if table.find(tier1, tostring(library.flags.item)) then
+                for _, v in pairs(game:GetService "Workspace".Harvestable.World:GetChildren()) do
+                    if not library.flags.farm then break end
+                    breaker = false
+                    if v.Name == library.flags.item then
+                        client.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass "Part".CFrame * CFrame.new(0, 10, 0)
+                        for i = 1, 5 do
+                            wait(0.15)
+                            pcall(function()
+                                game:GetService "ReplicatedStorage".Events.Harvest.Harvest:FireServer(v)
+                            end)
+                        end
+                        breaker = true
+                    end
+                    if breaker then break end
+                end
+            elseif table.find(tier2, tostring(library.flags.item)) then
+                for _, v in pairs(game:GetService "Workspace".Harvestable.WorldT2:GetChildren()) do
+                    if not library.flags.farm then break end
+                    breaker = false
+                    if v.Name == library.flags.item then
+                        client.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass "Part".CFrame * CFrame.new(0, 10, 0)
+                        for i = 1, 5 do
+                            wait(0.15)
+                            pcall(function()
+                                game:GetService "ReplicatedStorage".Events.Harvest.Harvest:FireServer(v)
+                            end)
+                        end
+                        breaker = true
+                    end
+                    if breaker then break end
+                end
+            elseif table.find(tier3, tostring(library.flags.item)) then
+                for _, v in pairs(game:GetService "Workspace".Harvestable.WorldT3:GetChildren()) do
+                    if not library.flags.farm then break end
+                    breaker = false
+                    if v.Name == library.flags.item then
+                        client.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass "Part".CFrame * CFrame.new(0, 10, 0)
+                        for i = 1, 5 do
+                            wait(0.15)
+                            pcall(function()
+                                game:GetService "ReplicatedStorage".Events.Harvest.Harvest:FireServer(v)
+                            end)
+                        end
+                        breaker = true
+                    end
+                    if breaker then break end
+                end
+            elseif table.find(tier4, tostring(library.flags.item)) then
+                for _, v in pairs(game:GetService "Workspace".Harvestable.WorldT4:GetChildren()) do
+                    if not library.flags.farm then break end
+                    breaker = false
+                    if v.Name == library.flags.item then
+                        client.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass "Part".CFrame * CFrame.new(0, 10, 0)
+                        for i = 1, 5 do
+                            wait(0.15)
+                            pcall(function()
+                                game:GetService "ReplicatedStorage".Events.Harvest.Harvest:FireServer(v)
+                            end)
+                        end
+                        breaker = true
+                    end
+                    if breaker then break end
+                end
+            end
+            for _, v in pairs(game:GetService "Workspace".Grids:GetChildren()) do
+                if v.Owner.Value == client then
+                    pcall(function()
+                        for _, w in pairs(v.Entities:GetChildren()) do
+                            if client.Character:FindFirstChild "CarriedItem" then
+                                if client.Character.CarriedItem.Handle.AmountGui.Amount.Text == "15" then
+                                    break
+                                end
+                            end
+                            if not library.flags.farm then
+                                break
+                            end
+                            if w.AmountGui.Amount.Text ~= "" then
+                                pcall(function()
+                                    client.Character.HumanoidRootPart.CFrame = w.CFrame * CFrame.new(0, 0, 2)
+									wait(.3)
+                                    game:GetService("ReplicatedStorage").Events.Inventory.PickUp:FireServer(w)
+                                    wait(0.3)
+                                end)
+                            end
+                        end
+                    end)
+                    if client.Character:FindFirstChild "CarriedItem" then
+                        client.Character.HumanoidRootPart.CFrame = v.PlacedObjects.SellZone.Top.CFrame * CFrame.new(0, .2, 0)
+                        wait(0.3)
+                        game:GetService "ReplicatedStorage".Events.Inventory.PickUp:FireServer(game:GetService "Players".LocalPlayer.Character.CarriedItem.Handle)
+                        wait(1)
+                    end
+                end
+            end
+        end
+    end
+end)
+sim:AddToggle{text = "Auto Farm", flag = "farm"}
+sim:AddList{text = "Select Resource", flag = "item", values = resource}
+sim:AddButton{
+    text = "Teleport To My Factory",
+    callback = function()
+        for i, v in pairs(game:GetService "Workspace".Grids:GetChildren()) do
+            if v.Owner.Value == client then
+                client.Character.HumanoidRootPart.CFrame = v.Vehicle.VehiclePlatform.CFrame * CFrame.new(0, 3.8, 0)
+            end
+        end
+    end
+}
+library:Init()
