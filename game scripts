@@ -16,6 +16,9 @@ elseif game.PlaceId == 221718525 then--Ninja Tycoon
 elseif game.PlaceId == 5534174456 then--NTropical Resort Tycoon 🌴
 	wait(3)
 	loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/game/Tropical%20Resort%20Tycoon%20%F0%9F%8C%B4'))()
+elseif game.PlaceId == 6769764667 then--Factory Simulator
+	wait(3)
+	loadstring(game:HttpGetAsync('https://github.com/thedragonslayer2/dogpics/raw/main/game/Factory%20Simulator'))()
 else
     wait(3)
 	loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/thedragonslayer2/dogpics/main/game/.no%20game"))()
